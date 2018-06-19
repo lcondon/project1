@@ -1,12 +1,23 @@
-/* Custom Stylesheet */
-/**
- * Use this file to override Materialize files so you can update
- * the core Materialize files in the future
- *
- * Made By MaterializeCSS.com
- */
+@font-face {
+  font-family: 'prozaregular';
+  src: url('./fonts/proza/proza-regular-webfont.woff2') format('woff2'),
+       url('./fonts/proza/proza-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'summit_regularinline';
+  src: url('./fonts/summit/summitregular-inline-webfont.woff2') format('woff2'),
+       url('./fonts/summit/summitregular-inline-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
  body {
-  font-family: 'Dosis', sans-serif;
+  font-family: 'summit_regularinline', sans-serif;
  }
 
  #download-button {
@@ -49,12 +60,17 @@ label {
   font-size: 14px;
 }
 
-#searchBar {
+#searchBar,
+.page-footer {
   background-color: #285340;
 }
 
 #searchContainer {
   margin-top: 17%;
+}
+
+.parallax-container .parallax #img1 {
+  width: 200%;
 }
 
 .parallax-container {

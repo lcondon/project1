@@ -16,20 +16,21 @@
 <body>
   <nav role="navigation" id="navBar">
     <div class="nav-wrapper container">
-                      <a id="logo-container" href="#" class="brand-logo">Total Travel</a>
+                      <a id="logo-container" href="#" class="brand-logo center white-text">Total Travel</a>
     </div>
   </nav>
 
   <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot">
-      <div class="container" id="searchBar">
+      
+      <div class="container" id="searchContainer">
         <br>
         <br>
         <div class="row">
 
           <h5 class="header col s12 light center">Type in any city to start your search!</h5>
           <form>
-            <div class="col s12">
+            <div class="col s12" id="placeSearch">
               <input type="search" id="cityInput" placeholder="Where are we going?">
             </div>
             <div class="col s6">
@@ -41,7 +42,7 @@
               <input type="date" id="endDate">
             </div>
             <div class = "sm 12 center">
-            <button class="btn waves-effect waves-light" type="submit" name="action">Go
+            <button class="btn waves-effect waves-light" type="submit" name="action" id="searchBar">Go
               <i class="material-icons right">send</i>
             </button></div>
           </form>

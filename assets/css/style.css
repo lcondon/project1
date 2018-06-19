@@ -14,6 +14,10 @@
   color: white;
  }
 
+ /* .brand-logo {
+   margin-left: 40%;
+ } */
+
  #navBar {
   background-color: #285340;
   color: white;
@@ -32,8 +36,25 @@ p {
   color: #26a69a;
 }
 
+#startDate,
+#endDate {
+  color: white;
+}
+
+#placeSearch {
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 14px;
+}
+
 #searchBar {
-  margin-top: 15%;
+  background-color: #285340;
+}
+
+#searchContainer {
+  margin-top: 17%;
 }
 
 .parallax-container {

@@ -3,9 +3,9 @@
 
 
 @font-face {
-    font-family: 'summit_regularinline';
-    src: url('summitregular-inline-webfont.woff2') format('woff2'),
-         url('summitregular-inline-webfont.woff') format('woff');
+    font-family: 'summit_mediumsolid';
+    src: url('summitmedium-solid-webfont.woff2') format('woff2'),
+         url('summitmedium-solid-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 

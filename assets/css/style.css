@@ -1,23 +1,14 @@
 @font-face {
-  font-family: 'prozaregular';
-  src: url('./fonts/proza/proza-regular-webfont.woff2') format('woff2'),
-       url('./fonts/proza/proza-regular-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-
-}
-
-@font-face {
-  font-family: 'summit_regularinline';
-  src: url('./fonts/summit/summitregular-inline-webfont.woff2') format('woff2'),
-       url('./fonts/summit/summitregular-inline-webfont.woff') format('woff');
+  font-family: 'summit_mediumsolid';
+  src: url('./fonts/summit/summitmedium-solid-webfont.woff2') format('woff2'),
+       url('./fonts/summit/summitmedium-solid-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 
 }
 
  body {
-  font-family: 'summit_regularinline', sans-serif;
+  font-family: 'summit_mediumsolid', sans-serif;
  }
 
  #download-button {

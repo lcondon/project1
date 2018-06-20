@@ -1,18 +1,24 @@
-/* Custom Stylesheet */
-/**
- * Use this file to override Materialize files so you can update
- * the core Materialize files in the future
- *
- * Made By MaterializeCSS.com
- */
+@font-face {
+  font-family: 'summit_mediumsolid';
+  src: url('./fonts/summit/summitmedium-solid-webfont.woff2') format('woff2'),
+       url('./fonts/summit/summitmedium-solid-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
  body {
-  font-family: 'Dosis', sans-serif;
+  font-family: 'summit_mediumsolid', sans-serif;
  }
 
  #download-button {
   background-color: #285340;
   color: white;
  }
+
+ /* .brand-logo {
+   margin-left: 40%;
+ } */
 
  #navBar {
   background-color: #285340;
@@ -32,8 +38,30 @@ p {
   color: #26a69a;
 }
 
-#searchBar {
-  margin-top: 15%;
+#startDate,
+#endDate {
+  color: white;
+}
+
+#placeSearch {
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 14px;
+}
+
+#searchBar,
+.page-footer {
+  background-color: #285340;
+}
+
+#searchContainer {
+  margin-top: 17%;
+}
+
+.parallax-container .parallax #img1 {
+  width: 200%;
 }
 
 .parallax-container {

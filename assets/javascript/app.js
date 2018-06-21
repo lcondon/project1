@@ -61,7 +61,7 @@ $("#searchBar").on("click", function (event) {
     zomatoKey = response.location_suggestions[0].id;
     console.log(zomatoKey);
     //Find the restaurants using Zomato
-    var zomatoRestaurantQuery = "https://developers.zomato.com/api/v2.1/search?entity_id="+zomatoKey+"&entity_type=city&start=0&count=10"
+    var zomatoRestaurantQuery = "https://developers.zomato.com/api/v2.1/search?entity_id=" + zomatoKey + "&entity_type=city&start=0&count=10"
     $.ajax({
       url: zomatoRestaurantQuery,
       method: "GET",
@@ -74,48 +74,45 @@ $("#searchBar").on("click", function (event) {
     })
   })
 
-})
+  var trailUrl = "https://trailapi-trailapi.p.mashape.com/?q[city_cont]=" + city + "&q[state_cont]=" + state;
 
-var queryUrl ="https://trailapi-trailapi.p.mashape.com/?q[city_cont]=" + city + "&q[state_cont]=" + state;
+  $.ajax({
+    url: trailUrl,
+    method: 'GET',
+    headers: {
+      "X-Mashape-Key": "9P0eBNZEeGmshd3pS2BerOChm5t5p1BXzT8jsnj1QooihhfQhl",
+      "Accept": "text/plain"
+    }
+  }).then(function (result) {
+    console.log(result.places);
+  })
+
+
+  var googleUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + city + "%20" + state + "&inputtype=textquery&fields=place_id,id,photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA5Ag7VdkbFo4eRs7x383DpttV1xDr5uRk";
+
+  $.ajax({
+    url: 'https://cors-anywhere.herokuapp.com/' + googleUrl,
+    method: 'GET',
+    headers: {
+
+    }
+  }).then(function (result) {
+    var city = result.candidates[0];
+    console.log(city);
+  })
+
+  var multiple = new Multiple({
+    selector: '.bgound',
+    background: 'linear-gradient(#273463, #8B4256)'
+  });
+
+
+var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query=richmond+virginia&orientation=landscape";
 
 $.ajax({
-  url: queryUrl,
-  method: 'GET',
-  headers: {
-    "X-Mashape-Key": "9P0eBNZEeGmshd3pS2BerOChm5t5p1BXzT8jsnj1QooihhfQhl",
-    "Accept": "text/plain"
-  }
+    url: unsplashUrl,
+    method: 'GET',
 }).then(function (result) {
-  console.log(result.places);
+    console.log(result);
 })
-
-
-var googleUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + city + "%20" + state + "&inputtype=textquery&fields=place_id,id,photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA5Ag7VdkbFo4eRs7x383DpttV1xDr5uRk";
-
-$.ajax({
-  url: 'https://cors-anywhere.herokuapp.com/' + googleUrl,
-  method: 'GET',
-  headers: {
-
-  }
-}).then(function (result) {
-  var city = result.candidates[0];
-  console.log(city);
-})
-
-var multiple = new Multiple({
-  selector: '.bgound',
-  background: 'linear-gradient(#273463, #8B4256)'
-});
-
-var gettyUrl = "https://api.gettyimages.com/v3/search/images?fields=id,title,thumb,referral_destinations&sort_order=most_popular&phrase=" + city + "," + state;
-
-$.ajax({
-  url: gettyUrl,
-  method: 'GET',
-  headers: {
-    "Api-Key": "j878g39yx378pa77djthzzpn"
-  }
-}).then(function (result) {
-  console.log(result.places);
 })

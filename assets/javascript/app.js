@@ -36,6 +36,7 @@ placesAutocomplete.on('change', function resultSelected(e) {
 var city = "";
 var zip = "";
 var state = "";
+var zomatoKey = "";
 
 $("#searchBar").on("click", function (event) {
   event.preventDefault();
@@ -45,5 +46,31 @@ $("#searchBar").on("click", function (event) {
   console.log(zip);
   state = $("#form-state").val().trim();
   console.log(state);
-})
 
+  //Find the Zomato ID
+  var zomatoQuery = "https://developers.zomato.com/api/v2.1/cities?q=" + city + "%2C%20" + state + "&count=1"
+  $.ajax({
+    url: zomatoQuery,
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "user-key": "0d9d7319d7127204add1f39cf9d0bd39"
+    }
+  }).then(function (response) {
+    console.log(response);
+    zomatoKey = response.location_suggestions[0].id;
+    console.log(zomatoKey);
+    //Find the restaurants using Zomato
+    var zomatoRestaurantQuery = "https://developers.zomato.com/api/v2.1/search?entity_id="+zomatoKey+"&entity_type=city&start=0&count=10"
+    $.ajax({
+      url: zomatoRestaurantQuery,
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "user-key": "0d9d7319d7127204add1f39cf9d0bd39"
+      }
+    }).then(function (response) {
+      console.log(response);
+    })
+  })
+})

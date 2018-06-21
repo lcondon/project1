@@ -1,13 +1,10 @@
-<<<<<<< HEAD
-//Loaded for Parallax
-=======
->>>>>>> 572318783951b2f393206ce0a4d8836dc154be53
+
 (function ($) {
   $(function () {
 
     $('.sidenav').sidenav();
     $('.parallax').parallax();
-<<<<<<< HEAD
+
 
   });
 })(jQuery);
@@ -49,10 +46,6 @@ $("#searchBar").on("click", function (event) {
   state = $("#form-state").val().trim();
   console.log(state);
 })
-=======
-
-  }); // end of document ready
-})(jQuery); // end of jQuery name space
 
 var placesAutocomplete = places({
   container: document.querySelector("#cityInput"),
@@ -69,4 +62,3 @@ $.ajax({
   console.log(result);
 })
 
->>>>>>> 572318783951b2f393206ce0a4d8836dc154be53

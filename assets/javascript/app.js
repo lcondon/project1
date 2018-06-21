@@ -118,3 +118,4 @@ $.ajax({
   }
 }).then(function (result) {
   console.log(result.places);
+})

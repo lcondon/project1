@@ -7,6 +7,13 @@
 
 }
 
+.bgound {
+  height: 810px;
+  margin-right: 10px;
+  width: 30%;
+  float: left;
+}
+
  body {
   font-family: 'summit_mediumsolid', sans-serif;
  }

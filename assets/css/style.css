@@ -119,3 +119,9 @@ footer.page-footer {
 .ap-name{
   color: black;
 }
+
+#form-zip, #form-state, #endDate, #startDate{
+  color: white;
+  font-family: 'summit_mediumsolid', sans-serif; 
+  margin-bottom: 20px;
+}

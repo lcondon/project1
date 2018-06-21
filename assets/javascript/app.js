@@ -13,8 +13,11 @@ var placesAutocomplete = places({
   countries: "us",
   aroundLatLngViaIP: false,
 });
-var queryUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Richmond%20Virginia&inputtype=textquery&fields=id,photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA5Ag7VdkbFo4eRs7x383DpttV1xDr5uRk";
-queryUrl ="https://trailapi-trailapi.p.mashape.com/?q[city_cont]=Richmond&q[state_cont]=virginia";
+
+var city = "Richmond";
+var state = "virginia";
+
+var queryUrl ="https://trailapi-trailapi.p.mashape.com/?q[city_cont]=" + city + "&q[state_cont]=" + state;
 
 $.ajax({
   url: queryUrl,
@@ -24,21 +27,36 @@ $.ajax({
     "Accept": "text/plain"
   }
 }).then(function (result) {
-  console.log(result);
+  console.log(result.places);
 })
-queryUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Richmond%20Virginia&inputtype=textquery&fields=place_id,id,photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA5Ag7VdkbFo4eRs7x383DpttV1xDr5uRk";
+
+
+var googleUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + city + "%20" + state + "&inputtype=textquery&fields=place_id,id,photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA5Ag7VdkbFo4eRs7x383DpttV1xDr5uRk";
 
 $.ajax({
-  url: 'https://cors-anywhere.herokuapp.com/' + queryUrl,
+  url: 'https://cors-anywhere.herokuapp.com/' + googleUrl,
   method: 'GET',
   headers: {
 
   }
 }).then(function (result) {
-  console.log(result.candidates[0]);
+  var city = result.candidates[0];
+  console.log(city);
 })
 
 var multiple = new Multiple({
   selector: '.bgound',
   background: 'linear-gradient(#273463, #8B4256)'
 });
+
+var gettyUrl = "https://api.gettyimages.com/v3/search/images?fields=id,title,thumb,referral_destinations&sort_order=most_popular&phrase=" + city + "," + state;
+
+$.ajax({
+  url: gettyUrl,
+  method: 'GET',
+  headers: {
+    "Api-Key": "j878g39yx378pa77djthzzpn"
+  }
+}).then(function (result) {
+  console.log(result.places);
+})

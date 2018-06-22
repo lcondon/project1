@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Bangers|Shrikhand" rel="stylesheet">
   <link href="./assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/multiple.js/0.0.1/multiple.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/multiple.js/0.0.1/multiple.css" rel="stylesheet" />
   <link href="./assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
@@ -17,13 +17,13 @@
 <body>
   <nav role="navigation" id="navBar">
     <div class="nav-wrapper container">
-                      <a id="logo-container" href="#" class="brand-logo center white-text">Total Travel</a>
+      <a id="logo-container" href="#" class="brand-logo center white-text">Total Travel</a>
     </div>
   </nav>
 
   <div id="index-banner" class="parallax-container">
     <div class="section no-pad-bot">
-      
+
       <div class="container" id="searchContainer">
         <br>
         <br>
@@ -51,10 +51,11 @@
               <label for="endDate">Departure Date</label>
               <input type="date" id="endDate">
             </div>
-            <div class = "sm 12 center">
-            <button class="btn waves-effect waves-light" type="submit" name="action" id="searchBar">Go
-              <i class="material-icons right">send</i>
-            </button></div>
+            <div class="sm 12 center">
+              <button class="btn waves-effect waves-light" type="submit" name="action" id="searchBar">Go
+                <i class="material-icons right">send</i>
+              </button>
+            </div>
           </form>
         </div>
         <br>
@@ -80,31 +81,39 @@
             <h2 class="center brown-text">
               <i class="material-icons">
                 place
-                </i>
+              </i>
             </h2>
             <h5 class="center">Attractions</h5>
 
-            <p class="light">Make sure to visit these awesome places...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+            <p class="light">Make sure to visit these awesome places...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+              laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+              esse cillum dolore eu fugiat nulla pariatur. </p>
           </div>
         </div>
 
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center brown-text">
-              <i class="material-icons">fastfood</i>
-            </h2>
-            <h5 class="center">Restaurants</h5>
+        <a href="#restaurantGrid">
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="centerbrown-text">
+                <i class="material-icons">fastfood</i>
+              </h2>
+              <h5 class="center">Restaurants</h5>
 
-            <p class="light">From fast food to 5-Star Dining, be sure to check out these restaurant suggestions! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+              <p class="light">From fast food to 5-Star Dining, be sure to check out these restaurant suggestions! Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+            </div>
           </div>
-        </div>
+        </a>
 
         <div class="col s12 m4">
           <div class="icon-block">
             <h2 class="center brown-text">
               <i class="material-icons">
                 event
-                </i>
+              </i>
             </h2>
             <h5 class="center">Events</h5>
 
@@ -121,7 +130,7 @@
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
-          <h5 class="header col s12 light">Attractions</h5>
+          <h5 class="header col s12 light">Restaurants</h5>
         </div>
       </div>
     </div>
@@ -134,12 +143,12 @@
     <div class="section">
 
       <div class="row">
-        <div class="col s12 center">
+        <div class="col s12 center" id="restaurantGrid">
           <h3>
             <i class="mdi-content-send brown-text"></i>
           </h3>
-          <h4>Contact Us</h4>
-          <p class="left-align light">Attraction grid will populate here?</p>
+          <h4></h4>
+          <p class="left-align light"></p>
         </div>
       </div>
 

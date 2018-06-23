@@ -15,11 +15,13 @@
 div.bgound > a:link,
 div.bgound > a:active,
 div.bgound > a:focus {
-  color: #000;
+  color: #000 !important;
+  text-decoration: none;
 }
 
 div.bgound > a:hover {
-  color: white;
+  color: white !important;
+  text-decoration: none;
 }
 
 .bgound {

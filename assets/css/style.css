@@ -13,32 +13,39 @@
 }
 
 
-div.bgound > a:link {
+div.menuBackground > a:link {
   color: #000 !important;
   text-decoration: none;
 }
 
-div.bgound > a:visited {
+div.menuBackground > a:visited {
   color: #000 !important;
   text-decoration: none;
 }
 
-div.bgound > a:hover {
+div.menuBackground > a:hover {
   color: white !important;
   text-decoration: none;
 }
 
-div.bgound > a:active {
+div.menuBackground > a:active {
   color: #000 !important;
   text-decoration: none;
 }
 
-
-
-.bgound {
+.menuBackground {
   padding: 2%;
   height: 100%;
   width: 98%;
+}
+.eventBackground {
+  padding: 2%;
+  height: 96%;
+  width: 98%;
+  margin: 1%;
+  color: #000;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: white;
 }
 
  body {

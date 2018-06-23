@@ -37,6 +37,8 @@ var city = "";
 var zip = "";
 var state = "";
 var zomatoKey = "";
+var startDate;
+var endDate;
 
 $("#searchBar").on("click", function (event) {
   event.preventDefault();
@@ -46,6 +48,10 @@ $("#searchBar").on("click", function (event) {
   console.log(zip);
   state = $("#form-state").val().trim();
   console.log(state);
+  startDate = $("#startDate").val();
+  console.log(startDate);
+  endDate = $("#endDate").val();
+  console.log(endDate);
 
   //Find the Zomato ID
   var zomatoQuery = "https://developers.zomato.com/api/v2.1/cities?q=" + city + "%2C%20" + state + "&count=1"
@@ -86,7 +92,7 @@ $("#searchBar").on("click", function (event) {
     })
   })
 
-  var trailUrl = "https://trailapi-trailapi.p.mashape.com/?q[city_cont]=" + city + "&q[state_cont]=" + state;
+  var trailUrl = "https://trailapi-trailapi.p.mashape.com/?limit=12&q[city_cont]=" + city + "&q[state_cont]=" + state;
 
   $.ajax({
     url: trailUrl,
@@ -96,7 +102,40 @@ $("#searchBar").on("click", function (event) {
       "Accept": "text/plain"
     }
   }).then(function (result) {
+    console.log(result);
     console.log(result.places);
+    var trailsList = result.places;
+  for (var i = 0; i < trailsList.length; i++){
+    var activities = [];
+    var arr = result.places[i].activities;
+    console.log(arr);
+    $.each(arr, function( index, value ) {
+      activities.push(result.places[i].activities[index].activity_type_name);
+    });
+    activities.join(", ");
+    console.log(activities);
+    var newTrailsDiv = $("<div>").addClass("col m4 center");
+    var newBackgroundDiv = $("<div>").addClass("trailsBackground");
+    var newTrailsName = $("<h5>").text(trailsList[i].name);
+    var newTrailsActivities = $("<p>").text(activities);
+    var newTrailsDescription = $("<p>").text(trailsList[i].activities[0].description);
+    var newTrailsLink = $("<p>").html("<a target = '_blank' href =''> Get Directions </a>");
+    newBackgroundDiv.append(newTrailsName)
+    .append(newTrailsActivities)
+    .append(newTrailsDescription)
+    .append(newTrailsLink);
+    newTrailsDiv.append(newBackgroundDiv);
+    $("#trailsGrid").append(newTrailsDiv);
+
+  }
+  
+  $.ajax({
+    url: unsplashUrl,
+    method: 'GET',
+  }).then(function (result) {
+    var url2 = result.results[1].urls.raw;
+    eventMultiple.update("url('" + url2 + "')");
+  })
   })
 
 
@@ -113,22 +152,69 @@ $("#searchBar").on("click", function (event) {
     console.log(city);
   })
 
+var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=12&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&city=" + city;
+
+$.ajax({
+  type:"GET",
+  url: 'https://cors-anywhere.herokuapp.com/' + tixUrl,
+  async:true,
+  dataType: "json"
+}).then(function(result) {
+  console.log(result);
+  console.log(result._embedded.events);
+  var eventList = result._embedded.events;
+  for (var i = 0; i < eventList.length; i++){
+    var newEventDiv = $("<div>").addClass("col m4 center");
+    var newBackgroundDiv = $("<div>").addClass("eventBackground");
+    var newEventName = $("<h5>").text(eventList[i].name);
+    var newEventVenue = $("<p>").text(eventList[i]._embedded.venues[0].name);
+    var newEventDate = $("<p>").text(eventList[i].dates.start.localDate);
+    var newEventLink = $("<p>").html("<a target = '_blank' href ="+eventList[i].url+"> More Info Here </a>");
+    newBackgroundDiv.append(newEventName)
+    .append(newEventVenue)
+    .append(newEventDate)
+    .append(newEventLink);
+    newEventDiv.append(newBackgroundDiv);
+    $("#eventGrid").append(newEventDiv);
+
+  }
+
+  $.ajax({
+    url: unsplashUrl,
+    method: 'GET',
+  }).then(function (result) {
+    var url2 = result.results[1].urls.raw;
+    eventMultiple.update("url('" + url2 + "')");
+  })
+
+});
+
 var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query=richmond+virginia&orientation=landscape";
 
 $.ajax({
-    url: unsplashUrl,
-    method: 'GET',
+  url: unsplashUrl,
+  method: 'GET',
 }).then(function (result) {
-    console.log(result.results[0].urls.raw);
-    var url1 = result.results[0].urls.raw;
-    multiple.update("url('" + url1 + "')");
+  console.log(result.results[0].urls.raw);
+  var url1 = result.results[0].urls.raw;
+  var url2 = result.results[1].urls.raw;
+  menuMultiple.update("url('" + url1 + "')");
+  eventMultiple.update("url('" + url2 + "')");
 })
+
 
 })
 
-var multiple = new Multiple({
-  selector: '.bgound',
+var menuMultiple = new Multiple({
+  selector: '.menuBackground',
   background: 'linear-gradient(#273463, #8B4256)'
 });
+
+var eventMultiple = new Multiple({
+  selector: '.eventBackground',
+  background: 'linear-gradient(#273463, #8B4256)'
+});
+
+
 
 

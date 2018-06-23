@@ -9,6 +9,14 @@
   });
 })(jQuery);
 
+$(document).ready(function(){
+  $('.parallax').parallax();
+});
+
+$(window).on('beforeunload', function(){
+  $(window).scrollTop(0);
+});
+
 //Loaded for Algolia Places
 var placesAutocomplete = places({
   container: document.querySelector("#cityInput"),
@@ -39,8 +47,25 @@ var state = "";
 var zomatoKey = "";
 var startDate;
 var endDate;
+var isValid;
 
-$("#searchBar").one("click", function (event) {
+
+
+function validateForm() {
+  isValid = true;
+  $('.dateInput').each(function() {
+    if ( $(this).val() === '' )
+        isValid = false;
+  });
+  return isValid;
+}
+
+
+$("#searchBar").on("click", function (event) {
+  validateForm();
+  if (!isValid) {
+    // $('.modal').modal('open');
+  } else {
   event.preventDefault();
   city = $("#cityInput").val().trim();
   console.log(city);
@@ -52,6 +77,8 @@ $("#searchBar").one("click", function (event) {
   console.log(startDate);
   endDate = $("#endDate").val();
   console.log(endDate);
+
+  var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query="+city+"+"+state+"&orientation=landscape";
 
   //Find the Zomato ID
   var zomatoQuery = "https://developers.zomato.com/api/v2.1/cities?q=" + city + "%2C%20" + state + "&count=1"
@@ -78,13 +105,15 @@ $("#searchBar").one("click", function (event) {
       //Create restaurant grid
       var restaurantList = response.restaurants;
       for (var i = 0; i < 2; i++) {
-        var newRestaurantDiv = $("<div>").addClass("col s5 center")
+        var newRestaurantDiv = $("<div>").addClass("col s5 center");
+        var newBackgroundDiv = $("<div>").addClass("restaurantBackground");
         var newRestaurantName = $("<h5>").text(restaurantList[i].restaurant.name);
         var newRestaurantType = $("<p>").text(restaurantList[i].restaurant.cuisines);
         var newRestaurantLink = $("<p>").html("<a target = '_blank' href =" + restaurantList[i].restaurant.url + "> Website </a>")
-        newRestaurantDiv.append(newRestaurantName)
+        newBackgroundDiv.append(newRestaurantName)
           .append(newRestaurantType)
           .append(newRestaurantLink);
+          newRestaurantDiv.append(newBackgroundDiv);
         $("#restaurantGrid").append(newRestaurantDiv)
       };
       var navigationDiv = $("<div>").addClass("col s2 center")
@@ -94,15 +123,26 @@ $("#searchBar").one("click", function (event) {
         .append(navigationIcon);
       $("#restaurantGrid").append(navigationDiv);
       for (var i = 2; i < restaurantList.length; i++) {
-        var newRestaurantDiv = $("<div>").addClass("col s3 center")
+        var newRestaurantDiv = $("<div>").addClass("col s3 center");
+        var newBackgroundDiv = $("<div>").addClass("restaurantBackground");
         var newRestaurantName = $("<h5>").text(restaurantList[i].restaurant.name);
         var newRestaurantType = $("<p>").text(restaurantList[i].restaurant.cuisines);
         var newRestaurantLink = $("<p>").html("<a target = '_blank' href =" + restaurantList[i].restaurant.url + "> Website </a>")
-        newRestaurantDiv.append(newRestaurantName)
+        newBackgroundDiv.append(newRestaurantName)
           .append(newRestaurantType)
           .append(newRestaurantLink);
+          newRestaurantDiv.append(newBackgroundDiv);
         $("#restaurantGrid").append(newRestaurantDiv)
       };
+   
+      $.ajax({
+        url: unsplashUrl,
+        method: 'GET',
+      }).then(function (result) {
+        var url4 = result.results[3].urls.raw;
+        restaurantMultiple.update("url('" + url4 + "')");
+      })
+   
     })
     //To create the landmark grid
     var foursquareQuery = "https://api.foursquare.com/v2/venues/search?near=" + city + "," + state + "&limit=12&categoryId=4d4b7104d754a06370d81259&client_id=MQF1VPVFWQ2GDP11OKAHEQCQ2JIURK0CZLZA4ER1ECJCWOMH&client_secret=P5SY4OSJDG2KHKNWXGTN0BTLW2IGYW5QN2LWPEM0DWTFC151&v=20180323"
@@ -182,19 +222,18 @@ $("#searchBar").one("click", function (event) {
     console.log(result.places);
     var trailsList = result.places;
   for (var i = 0; i < trailsList.length; i++){
+
     var activities = [];
     var arr = result.places[i].activities;
-    console.log(arr);
     $.each(arr, function( index, value ) {
       activities.push(result.places[i].activities[index].activity_type_name);
     });
-    activities.join(", ");
-    console.log(activities);
+    activities.join(" + ");
     var newTrailsDiv = $("<div>").addClass("col m4 center");
     var newBackgroundDiv = $("<div>").addClass("trailsBackground");
     var newTrailsName = $("<h5>").text(trailsList[i].name);
     var newTrailsActivities = $("<p>").text(activities);
-    var newTrailsDescription = $("<p>").text(trailsList[i].activities[0].description);
+    var newTrailsDescription = $("<p>").html("description");
     var newTrailsLink = $("<p>").html("<a target = '_blank' href =''> Get Directions </a>");
     newBackgroundDiv.append(newTrailsName)
     .append(newTrailsActivities)
@@ -202,17 +241,21 @@ $("#searchBar").one("click", function (event) {
     .append(newTrailsLink);
     newTrailsDiv.append(newBackgroundDiv);
     $("#trailsGrid").append(newTrailsDiv);
+    
+    
 
   }
   
   $.ajax({
     url: unsplashUrl,
     method: 'GET',
-  }).then(function (result) {
-    var url2 = result.results[1].urls.raw;
-    eventMultiple.update("url('" + url2 + "')");
+  }).then(function (trailsResults) {
+    var url5 = trailsResults.results[4].urls.raw;
+    console.log(trailsResults.results[4].urls.raw);
+    trailsMultiple.update("url('" + url5 + "')");
   })
-  })
+  
+})
 
 
   var googleUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + city + "%20" + state + "&inputtype=textquery&fields=place_id,id,photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA5Ag7VdkbFo4eRs7x383DpttV1xDr5uRk";
@@ -228,7 +271,7 @@ $("#searchBar").one("click", function (event) {
     console.log(city);
   })
 
-  var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query="+city+"+"+state+"&orientation=landscape";
+
 
 
 var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=12&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&city=" + city;
@@ -276,12 +319,10 @@ $.ajax({
 }).then(function (result) {
   console.log(result.results[0].urls.raw);
   var url1 = result.results[0].urls.raw;
-  var url2 = result.results[1].urls.raw;
   menuMultiple.update("url('" + url1 + "')");
-  eventMultiple.update("url('" + url2 + "')");
 })
 
-
+  }
 })
 
 
@@ -297,6 +338,16 @@ var eventMultiple = new Multiple({
 
 var attractionMultiple = new Multiple({
   selector: '.attractionBackground',
+  background: 'linear-gradient(#273463, #8B4256)'
+});
+
+var trailsMultiple = new Multiple({
+  selector: '.trailsBackground',
+  background: 'linear-gradient(#273463, #8B4256)'
+});
+
+var restaurantMultiple = new Multiple({
+  selector: '.restaurantBackground',
   background: 'linear-gradient(#273463, #8B4256)'
 });
 

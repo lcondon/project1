@@ -23,8 +23,9 @@
     </div>
   </nav>
 
-  <div id="index-banner" class="parallax-container">
+  <div id="index-banner" class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">
+
 
       <div class="container" id="searchContainer">
         <br>
@@ -32,9 +33,9 @@
         <div class="row">
 
           <h5 class="header col s12 light center">Type in any city to start your search!</h5>
-          <form>
+          <form id="searchForm">
             <div class="col s12" id="placeSearch">
-              <input type="search" id="cityInput" placeholder="Destination?">
+              <input type="search" id="cityInput" class="formInput" placeholder="Destination?" required>
             </div>
 
             <div class="col s8">
@@ -47,11 +48,11 @@
 
             <div class="col s6">
               <label for="startDate">Arrival Date</label>
-              <input type="date" id="startDate">
+              <input type="date" id="startDate" class="dateInput" required>
             </div>
             <div class="col s6">
               <label for="endDate">Departure Date</label>
-              <input type="date" id="endDate">
+              <input type="date" id="endDate" class="dateInput" required>
             </div>
             <div class="sm 12 center">
               <button class="btn waves-effect waves-light" type="submit" name="action" id="searchBar">Go
@@ -77,8 +78,8 @@
     <div class="section">
       <div class="row flex">
 
-        <div class="col m4 center">
-          <div class="bgound">
+        <div class="col m4 ">
+          <div class="menuBackground">
             <a href="#attractionGrid">
               <div class="icon-block">
                 <h2 class="center brown-text">
@@ -93,8 +94,8 @@
           </div>
         </div>
 
-        <div class="col m4 center">
-          <div class="bgound">
+        <div class="col m4">
+          <div class="menuBackground">
             <a href="#restaurantGrid">
               <div class="icon-block">
                 <h2 class="center brown-text">
@@ -110,7 +111,7 @@
 
         <div class="col m4">
           <div class="menuBackground">
-
+              <a href="#eventGrid">
             <div class="icon-block">
               <h2 class="center brown-text">
                 <i class="material-icons">
@@ -121,15 +122,15 @@
 
               <p class="light">Concerts, Games, Festivals</p>
             </div>
+          </a>
           </div>
         </div>
 
       </div>
       <div class="row flex">
-        <div class="col m4 center">
+        <div class="col m4">
           <div class="menuBackground">
-              <a href="#restaurantGrid">
-
+              <a href="#trailsGrid">
             <div class="icon-block">
               <h2 class="center brown-text">
                 <i class="material-icons">
@@ -140,11 +141,13 @@
 
               <p class="light">Hiking, Camping, Water Sports</p>
             </div>
+            </a>
           </div>
         </div>
 
-        <div class="col m4 center">
+        <div class="col m4 ">
           <div class="menuBackground">
+              <a href="#shoppingGrid">
             <div class="icon-block">
               <h2 class="center brown-text">
                 <i class="material-icons">
@@ -155,10 +158,11 @@
 
               <p class="light">Boutiques, Malls</p>
             </div>
+            </a>
           </div>
         </div>
-        <div class="col m4 center">
-          <div class="bgound">
+        <div class="col m4 ">
+          <div class="menuBackground">
             <div class="icon-block">
               <h2 class="center brown-text">
                 <i class="material-icons">
@@ -177,6 +181,29 @@
 
 
   <div class="parallax-container valign-wrapper">
+      <div class="container">
+        <div class="row center">
+          <h5 class="header col s12 light">Attractions</h5>
+        </div>
+      </div>
+    <div class="parallax">
+      <img src="./assets/images/map8.png" alt="Unsplashed background img 2">
+    </div>
+  </div>
+
+  <div class="container">
+      <div class="section">
+  
+        <div class="row flex" id="attractionGrid">
+        </div>
+  
+      </div>
+    </div>
+
+ 
+
+
+  <div class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
@@ -185,18 +212,19 @@
       </div>
     </div>
     <div class="parallax">
-      <img src="./assets/images/map8.png" alt="Unsplashed background img 2">
+      <img src="./assets/images/map7.png" alt="Unsplashed background img 3">
     </div>
   </div>
+  
 
   <div class="container">
-    <div class="section">
-
-      <div class="row flex" id="restaurantGrid">
+      <div class="section">
+  
+        <div class="row flex" id="restaurantGrid">
+        </div>
+  
       </div>
-
     </div>
-  </div>
 
 
   <div class="parallax-container valign-wrapper">
@@ -208,48 +236,26 @@
       </div>
     </div>
     <div class="parallax">
-      <img src="./assets/images/map7.png" alt="Unsplashed background img 3">
-    </div>
-  </div>
-  <div class="container">
-    <div class="section">
-
-      <div class="row flex center" id="eventGrid">
-        
-      </div>
-
-    </div>
-  </div>
-
-
-  <div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-        </div>
-      </div>
-    </div>
-    <div class="parallax">
       <img src="./assets/images/map5.png" alt="Unsplashed background img 3">
     </div>
   </div>
 
   <div class="container">
-    <div class="section">
-
-      <div class="row flex" id="attractionGrid">
+      <div class="section">
+  
+        <div class="row flex center" id="eventGrid">
+          
+        </div>
+  
       </div>
-
     </div>
-  </div>
 
 
   <div class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">
       <div class="container">
         <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+          <h5 class="header col s12 light">Outdoor Exploration</h5>
         </div>
       </div>
     </div>
@@ -261,7 +267,7 @@
     <div class="container">
       <div class="section">
   
-        <div class="row flex center" id="eventGrid">
+        <div class="row flex center" id="trailsGrid">
           
         </div>
   
@@ -273,7 +279,7 @@
       <div class="section no-pad-bot">
         <div class="container">
           <div class="row center">
-            <h5 class="header col s12 light">Events</h5>
+            <h5 class="header col s12 light">Shopping</h5>
           </div>
         </div>
       </div>
@@ -285,7 +291,7 @@
     <div class="container">
         <div class="section">
     
-          <div class="row flex center" id="trailsGrid">
+          <div class="row flex center" id="shoppingGrid">
             
           </div>
     

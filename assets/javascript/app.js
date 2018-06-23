@@ -38,7 +38,7 @@ var zip = "";
 var state = "";
 var zomatoKey = "";
 
-$("#searchBar").on("click", function (event) {
+$("#searchBar").one("click", function (event) {
   event.preventDefault();
   city = $("#cityInput").val().trim();
   console.log(city);
@@ -57,9 +57,7 @@ $("#searchBar").on("click", function (event) {
       "user-key": "0d9d7319d7127204add1f39cf9d0bd39"
     }
   }).then(function (response) {
-    console.log(response);
     zomatoKey = response.location_suggestions[0].id;
-    console.log(zomatoKey);
     //Find the restaurants using Zomato
     var zomatoRestaurantQuery = "https://developers.zomato.com/api/v2.1/search?entity_id=" + zomatoKey + "&entity_type=city&start=0&count=10"
     $.ajax({
@@ -70,21 +68,99 @@ $("#searchBar").on("click", function (event) {
         "user-key": "0d9d7319d7127204add1f39cf9d0bd39"
       }
     }).then(function (response) {
-      console.log(response.restaurants);
+      // console.log(response.restaurants);
+      //Create restaurant grid
       var restaurantList = response.restaurants;
-      for (var i = 0; i <restaurantList.length; i++){
-        var newRestaurantDiv = $("<div>").addClass("col s4 center")
+      for (var i = 0; i < 2; i++) {
+        var newRestaurantDiv = $("<div>").addClass("col s5 center")
         var newRestaurantName = $("<h5>").text(restaurantList[i].restaurant.name);
         var newRestaurantType = $("<p>").text(restaurantList[i].restaurant.cuisines);
-        var newRestaurantLink = $("<p>").html("<a target = '_blank' href ="+restaurantList[i].restaurant.url+"> Website </a>")
+        var newRestaurantLink = $("<p>").html("<a target = '_blank' href =" + restaurantList[i].restaurant.url + "> Website </a>")
         newRestaurantDiv.append(newRestaurantName)
-        .append(newRestaurantType)
-        .append(newRestaurantLink);
-        $("#restaurantGrid").append(newRestaurantDiv);
-
-      }
+          .append(newRestaurantType)
+          .append(newRestaurantLink);
+        $("#restaurantGrid").append(newRestaurantDiv)
+      };
+      var navigationDiv = $("<div>").addClass("col s2 center")
+      var navigationHeader = $("<h5>").html("<a href = '#navigationGrid'>Menu</a>");
+      var navigationIcon = $("<p>").html("<a href = '#navigationGrid'><i class= 'material-icons'>apps</i></a>");
+      navigationDiv.append(navigationHeader)
+        .append(navigationIcon);
+      $("#restaurantGrid").append(navigationDiv);
+      for (var i = 2; i < restaurantList.length; i++) {
+        var newRestaurantDiv = $("<div>").addClass("col s3 center")
+        var newRestaurantName = $("<h5>").text(restaurantList[i].restaurant.name);
+        var newRestaurantType = $("<p>").text(restaurantList[i].restaurant.cuisines);
+        var newRestaurantLink = $("<p>").html("<a target = '_blank' href =" + restaurantList[i].restaurant.url + "> Website </a>")
+        newRestaurantDiv.append(newRestaurantName)
+          .append(newRestaurantType)
+          .append(newRestaurantLink);
+        $("#restaurantGrid").append(newRestaurantDiv)
+      };
     })
+    //To create the landmark grid
+    var foursquareQuery = "https://api.foursquare.com/v2/venues/search?near=" + city + "," + state + "&limit=12&categoryId=4d4b7104d754a06370d81259&client_id=MQF1VPVFWQ2GDP11OKAHEQCQ2JIURK0CZLZA4ER1ECJCWOMH&client_secret=P5SY4OSJDG2KHKNWXGTN0BTLW2IGYW5QN2LWPEM0DWTFC151&v=20180323"
+    $.ajax({
+      url: foursquareQuery,
+      method: "GET",
+    }).then(function (answer) {
+      var attractionList = answer.response.venues;
+      for (var i = 0; i < 3; i++) {
+        newAttractionDiv = $("<div>").addClass("col s3 center");
+        var newBackgroundDiv = $("<div>").addClass("attractionBackground");
+        newAttractionName = $("<h6>").text(attractionList[i].name);
+        newAttractionType = $("<p>").text(attractionList[i].categories[0].name);
+        newAttractionAddress = $("<p>").text(attractionList[i].location.address);
+        newBackgroundDiv.append(newAttractionName)
+          .append(newAttractionType)
+          .append(newAttractionAddress);
+        newAttractionDiv.append(newBackgroundDiv);
+        $("#attractionGrid").append(newAttractionDiv);
+      }
+      var navigationDiv = $("<div>").addClass("col s3 center")
+      var navigationHeader = $("<h6>").html("<a href = '#navigationGrid'>Menu</a>");
+      var navigationIcon = $("<p>").html("<a href = '#navigationGrid'><i class= 'material-icons'>apps</i></a>");
+      navigationDiv.append(navigationHeader)
+        .append(navigationIcon);
+      $("#attractionGrid").append(navigationDiv);
+
+      for (var i = 3; i < 12; i++) {
+        newAttractionDiv = $("<div>").addClass("col s4 center");
+        var newBackgroundDiv = $("<div>").addClass("attractionBackground");
+        newAttractionName = $("<h6>").text(attractionList[i].name);
+        newAttractionType = $("<p>").text(attractionList[i].categories[0].name);
+        newAttractionAddress = $("<p>").text(attractionList[i].location.address);
+        newBackgroundDiv.append(newAttractionName)
+          .append(newAttractionType)
+          .append(newAttractionAddress);
+        newAttractionDiv.append(newBackgroundDiv)
+        $("#attractionGrid").append(newAttractionDiv);
+      }
+      $.ajax({
+        url: unsplashUrl,
+        method: "GET",
+      }).then(function (result) {
+        var url3 = result.results[2].urls.raw;
+        attractionMultiple.update("url('" + url3 + "')");
+      })
+    })
+
+    var weatherQuery = "https://api.openweathermap.org/data/2.5/weather?zip=" + zip + ",us&APPID=4cb9b0cab7bf5af48f472887e700bf76"
+    $.ajax({
+      url: weatherQuery,
+      method: 'GET'
+    }).then(function (result) {
+      var weatherDescription = result.weather[0].description;
+      var tempInKelvin = result.main.temp;
+      var tempInFahrenheight = (Math.round((tempInKelvin - 273.15) * 1.8) + 32);
+      var tempP = $("<p>").text(weatherDescription);
+      var tempP2 = $("<p>").text(tempInFahrenheight + "°F");
+      $("#weatherDiv").append(tempP)
+        .append(tempP2)
+    });
+
   })
+
 
   var trailUrl = "https://trailapi-trailapi.p.mashape.com/?q[city_cont]=" + city + "&q[state_cont]=" + state;
 
@@ -113,22 +189,27 @@ $("#searchBar").on("click", function (event) {
     console.log(city);
   })
 
-var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query=richmond+virginia&orientation=landscape";
+  var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query="+city+"+"+state+"&orientation=landscape";
 
-$.ajax({
+  $.ajax({
     url: unsplashUrl,
     method: 'GET',
-}).then(function (result) {
+  }).then(function (result) {
     console.log(result.results[0].urls.raw);
     var url1 = result.results[0].urls.raw;
     multiple.update("url('" + url1 + "')");
-})
+  })
 
 })
+
+
 
 var multiple = new Multiple({
   selector: '.bgound',
   background: 'linear-gradient(#273463, #8B4256)'
 });
 
-
+var attractionMultiple = new Multiple({
+  selector: '.attractionBackground',
+  background: 'linear-gradient(#273463, #8B4256)'
+});

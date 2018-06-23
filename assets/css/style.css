@@ -12,6 +12,16 @@
   flex-wrap: wrap;
 }
 
+div.bgound > a:link,
+div.bgound > a:active,
+div.bgound > a:focus {
+  color: #000;
+}
+
+div.bgound > a:hover {
+  color: white;
+}
+
 .bgound {
   padding: 2%;
   height: 100%;

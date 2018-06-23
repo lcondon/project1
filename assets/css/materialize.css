@@ -2609,6 +2609,30 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+div.menuBackground > a:link {
+  color: #000 !important;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+div.menuBackground > a:visited {
+  color: #000 !important;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+div.menuBackground > a:hover {
+  color: white !important;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+div.menuBackground > a:active {
+  color: #000 !important;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .valign-wrapper {
   display: -webkit-box;
   display: -webkit-flex;

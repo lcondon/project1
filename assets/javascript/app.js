@@ -101,18 +101,22 @@ $("#searchBar").on("click", function (event) {
     console.log(city);
   })
 
-  var multiple = new Multiple({
-    selector: '.bgound',
-    background: 'linear-gradient(#273463, #8B4256)'
-  });
-
-
 var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query=richmond+virginia&orientation=landscape";
 
 $.ajax({
     url: unsplashUrl,
     method: 'GET',
 }).then(function (result) {
-    console.log(result);
+    console.log(result.results[0].urls.raw);
+    var url1 = result.results[0].urls.raw;
+    multiple.update("url('" + url1 + "')");
 })
+
 })
+
+var multiple = new Multiple({
+  selector: '.bgound',
+  background: 'linear-gradient(#273463, #8B4256)'
+});
+
+

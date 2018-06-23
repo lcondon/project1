@@ -70,7 +70,19 @@ $("#searchBar").on("click", function (event) {
         "user-key": "0d9d7319d7127204add1f39cf9d0bd39"
       }
     }).then(function (response) {
-      console.log(response);
+      console.log(response.restaurants);
+      var restaurantList = response.restaurants;
+      for (var i = 0; i <restaurantList.length; i++){
+        var newRestaurantDiv = $("<div>").addClass("col s4 center")
+        var newRestaurantName = $("<h5>").text(restaurantList[i].restaurant.name);
+        var newRestaurantType = $("<p>").text(restaurantList[i].restaurant.cuisines);
+        var newRestaurantLink = $("<p>").html("<a target = '_blank' href ="+restaurantList[i].restaurant.url+"> Website </a>")
+        newRestaurantDiv.append(newRestaurantName)
+        .append(newRestaurantType)
+        .append(newRestaurantLink);
+        $("#restaurantGrid").append(newRestaurantDiv);
+
+      }
     })
   })
 

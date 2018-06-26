@@ -26,9 +26,9 @@ $(window).on('beforeunload', function () {
   $(window).scrollTop(0);
 });
 
-$("#colorToggle").on("click", function(){
-   var grids = $(".grids");
-   grids.toggleClass("textDif");
+$("#colorToggle").on("click", function () {
+  var grids = $(".grids");
+  grids.toggleClass("textDif");
 })
 
 //Loaded for Algolia Places
@@ -65,34 +65,36 @@ var isValid;
 var database = firebase.database();
 
 //Makes a button from the firebase database
-database.ref().on("child_added", function(childSnapshot, prevChildKey){
+database.ref().on("child_added", function (childSnapshot, prevChildKey) {
   event.preventDefault();
-  var cityButton = $("<button>").text(childSnapshot.val().city+", "+childSnapshot.val().state);
+  var cityButton = $("<button>").text(childSnapshot.val().city + ", " + childSnapshot.val().state);
   var newCity = childSnapshot.val().city
   cityButton.addClass("btn waves-effect waves-light")
-  .addClass("newCityBtn")
-  .attr("cityName", newCity);
+    .addClass("newCityBtn")
+    .attr("cityName", newCity);
   $("#recentButtons").append(cityButton);
-  })
+})
 
-  //When a recent city button is clicked, form automatically populates
-  $(document).on("click", ".newCityBtn",function(){
-    var buttonCity = $(this).attr("cityName");
-    database.ref(buttonCity).once('value').then(function(snapshot){
-      var newZip = (snapshot.val().zip);
-      var newCity = (snapshot.val().city);
-      var newState = (snapshot.val().state);
-      $("#cityInput").val(newCity);
-      $("#form-zip").val(newZip);
-      $("#form-state").val(newState);
-    })
-    }) 
+//When a recent city button is clicked, form automatically populates
+$(document).on("click", ".newCityBtn", function () {
+  var buttonCity = $(this).attr("cityName");
+  database.ref(buttonCity).once('value').then(function (snapshot) {
+    var newZip = (snapshot.val().zip);
+    var newCity = (snapshot.val().city);
+    var newState = (snapshot.val().state);
+    $("#cityInput").val(newCity);
+    $("#form-zip").val(newZip);
+    $("#form-state").val(newState);
+  })
+})
 
 //When this function is called, the user will be directed to the navigation grid
-function movetoGrid(){
+function movetoGrid() {
   $('html,body').animate({
-  scrollTop: $("#navigationGrid").offset().top},
-  'slow');}
+    scrollTop: $("#navigationGrid").offset().top
+  },
+    'slow');
+}
 
 //Requires that users input dates for event grid can be populated 
 function validateForm() {
@@ -122,15 +124,15 @@ $("#searchBar").on("click", function (event) {
     console.log(endDate);
     var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query=" + city + "+" + state + "&orientation=landscape";
 
-//When submit button is clicked, push the data to firebase
-database.ref(city).set({
-  city: city,
-  zip: zip,
-  state: state,
-})
+    //When submit button is clicked, push the data to firebase
+    database.ref(city).set({
+      city: city,
+      zip: zip,
+      state: state,
+    })
 
-//Once the button is clicked, users are directed to navigation grid
-setTimeout(movetoGrid, 1500)
+    //Once the button is clicked, users are directed to navigation grid
+    setTimeout(movetoGrid, 1500)
 
     //Find the Zomato ID
     var zomatoQuery = "https://developers.zomato.com/api/v2.1/cities?q=" + city + "%2C%20" + state + "&count=1"
@@ -183,7 +185,7 @@ setTimeout(movetoGrid, 1500)
         method: "GET",
       }).then(function (answer) {
         var attractionList = answer.response.venues;
-        
+
         for (var i = 0; i < 12; i++) {
           newAttractionDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("attractionBackground");
@@ -211,7 +213,7 @@ setTimeout(movetoGrid, 1500)
         url: shoppingQuery,
         method: 'GET'
       }).then(function (result) {
-        
+
         for (var i = 0; i < 12; i++) {
           newShoppingDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("shoppingBackground");
@@ -262,27 +264,68 @@ setTimeout(movetoGrid, 1500)
     }).then(function (result) {
       console.log(result);
       console.log(result.places);
-
       var trailsList = result.places;
-      for (var i = 0; i < trailsList.length; i++) {
-        var activities = [];
-        var arr = result.places[i].activities;
-        $.each(arr, function (index, value) {
-          activities.push(result.places[i].activities[index].activity_type_name);
-        });
-        activities.join(" + ");
-        var newTrailsDiv = $("<div>").addClass("col l4 m4 s12 center");
-        var newBackgroundDiv = $("<div>").addClass("trailsBackground");
-        var newTrailsName = $("<h5>").text(trailsList[i].name);
-        var newTrailsActivities = $("<p>").text(activities);
-        var newTrailsDescription = $("<p>").html("description");
-        var newTrailsLink = $("<p>").html("<a target = '_blank' href =''> Get Directions </a>");
-        newBackgroundDiv.append(newTrailsName)
-          .append(newTrailsActivities)
-          .append(newTrailsDescription)
-          .append(newTrailsLink);
-        newTrailsDiv.append(newBackgroundDiv);
-        $("#trailsGrid").append(newTrailsDiv);
+      if (trailsList.length < 3) {
+        var trailUrl2 = "https://trailapi-trailapi.p.mashape.com/?limit=12&q[state_cont]=" + state;
+        $.ajax({
+          url: trailUrl2,
+          method: 'GET',
+          headers: {
+            "X-Mashape-Key": "9P0eBNZEeGmshd3pS2BerOChm5t5p1BXzT8jsnj1QooihhfQhl",
+            "Accept": "text/plain"
+          }
+        }).then(function (result) {
+          var trailsList = result.places;
+          for (var i = 0; i < trailsList.length; i++) {
+            var activities = [];
+            var arr = result.places[i].activities;
+            $.each(arr, function (index, value) {
+              activities.push(result.places[i].activities[index].activity_type_name);
+            });
+            activities.join(" + ");
+            var newTrailsDiv = $("<div>").addClass("col l4 m4 s12 center");
+            var newBackgroundDiv = $("<div>").addClass("trailsBackground");
+            var newTrailsName = $("<h5>").text(trailsList[i].name);
+            var newTrailsActivities = $("<p>").text(activities);
+            var newTrailsDescription = $("<p>").html("description");
+            var newTrailsLink = $("<p>").html("<a target = '_blank' href =''> Get Directions </a>");
+            newBackgroundDiv.append(newTrailsName)
+              .append(newTrailsActivities)
+              .append(newTrailsDescription)
+              .append(newTrailsLink);
+            newTrailsDiv.append(newBackgroundDiv);
+            $("#trailsGrid").append(newTrailsDiv);
+          }
+          $.ajax({
+            url: unsplashUrl,
+            method: 'GET',
+          }).then(function (trailsResults) {
+            var url5 = trailsResults.results[4].urls.raw;
+            console.log(trailsResults.results[4].urls.raw);
+            trailsMultiple.update("url('" + url5 + "')");
+          })
+        })
+      } else {
+        for (var i = 0; i < trailsList.length; i++) {
+          var activities = [];
+          var arr = result.places[i].activities;
+          $.each(arr, function (index, value) {
+            activities.push(result.places[i].activities[index].activity_type_name);
+          });
+          activities.join(" + ");
+          var newTrailsDiv = $("<div>").addClass("col l4 m4 s12 center");
+          var newBackgroundDiv = $("<div>").addClass("trailsBackground");
+          var newTrailsName = $("<h5>").text(trailsList[i].name);
+          var newTrailsActivities = $("<p>").text(activities);
+          var newTrailsDescription = $("<p>").html("description");
+          var newTrailsLink = $("<p>").html("<a target = '_blank' href =''> Get Directions </a>");
+          newBackgroundDiv.append(newTrailsName)
+            .append(newTrailsActivities)
+            .append(newTrailsDescription)
+            .append(newTrailsLink);
+          newTrailsDiv.append(newBackgroundDiv);
+          $("#trailsGrid").append(newTrailsDiv);
+        }
       }
       $.ajax({
         url: unsplashUrl,
@@ -319,7 +362,7 @@ setTimeout(movetoGrid, 1500)
       console.log(result._embedded.events);
       var eventList = result._embedded.events;
 
-      var calculatedEventList = ((Math.floor((eventList.length)/3))*3)-1
+      var calculatedEventList = ((Math.floor((eventList.length) / 3)) * 3) - 1
       for (var i = 0; i < calculatedEventList; i++) {
         var newEventDiv = $("<div>").addClass("col l4 m4 s12 center");
         var newBackgroundDiv = $("<div>").addClass("eventBackground");
@@ -341,7 +384,7 @@ setTimeout(movetoGrid, 1500)
         var url2 = result.results[1].urls.raw;
         eventMultiple.update("url('" + url2 + "')");
       })
-    
+
     });
 
     $.ajax({

@@ -15,6 +15,7 @@ firebase.initializeApp(config);
   $(function () {
     $('.sidenav').sidenav();
     $('.parallax').parallax();
+    $('.fixed-action-btn').floatingActionButton();
   });
 })(jQuery);
 $(document).ready(function () {
@@ -24,6 +25,11 @@ $(document).ready(function () {
 $(window).on('beforeunload', function () {
   $(window).scrollTop(0);
 });
+
+$("#colorToggle").on("click", function(){
+   var grids = $(".grids");
+   grids.toggleClass("textDif");
+})
 
 //Loaded for Algolia Places
 var placesAutocomplete = places({
@@ -261,7 +267,7 @@ setTimeout(movetoGrid, 1500)
     })
 
     //To create the outdoor exploration section 
-    var trailUrl = "https://trailapi-trailapi.p.mashape.com/?limit=12&q[city_cont]=" + city + "&q[state_cont]=" + state;
+    var trailUrl = "https://trailapi-trailapi.p.mashape.com/?radius=limit=11&q[city_cont]=" + city + "&q[state_cont]=" + state;
     $.ajax({
       url: trailUrl,
       method: 'GET',
@@ -323,7 +329,7 @@ setTimeout(movetoGrid, 1500)
     })
 
     //To create events Div 
-    var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=12&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&city=" + city;
+    var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=11&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&city=" + city;
     $.ajax({
       type: "GET",
       url: 'https://cors-anywhere.herokuapp.com/' + tixUrl,
@@ -333,6 +339,7 @@ setTimeout(movetoGrid, 1500)
       console.log(result);
       console.log(result._embedded.events);
       var eventList = result._embedded.events;
+
       var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
       var navigationHeader = $("<h5>").html("<a href = '#navigationGrid'>Menu<i class= 'material-icons'>apps</i></a>");
       navigationDiv.append(navigationHeader)
@@ -342,7 +349,7 @@ setTimeout(movetoGrid, 1500)
         var newEventDiv = $("<div>").addClass("col l4 m4 s12 center");
         var newBackgroundDiv = $("<div>").addClass("eventBackground");
         var newEventName = $("<h5>").text(eventList[i].name);
-        var newEventVenue = $("<p>").text(eventList[i]._embedded.venues[0].name);
+        var newEventVenue = $("<p>").text(eventList[i]._embedded.venues["0"].name);
         var newEventDate = $("<p>").text(eventList[i].dates.start.localDate);
         var newEventLink = $("<p>").html("<a target = '_blank' href =" + eventList[i].url + "> More Info Here </a>");
         newBackgroundDiv.append(newEventName)
@@ -359,6 +366,7 @@ setTimeout(movetoGrid, 1500)
         var url2 = result.results[1].urls.raw;
         eventMultiple.update("url('" + url2 + "')");
       })
+    
     });
 
     $.ajax({

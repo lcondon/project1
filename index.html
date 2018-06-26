@@ -19,12 +19,25 @@
 <body>
   <nav role="navigation" id="navBar">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo center white-text">Total Travel</a>
+      <h2 class="center white-text" id="logoTT">Total Travel</h2>
     </div>
   </nav>
+  <div class="fixed-action-btn">
+        <a class="btn-floating btn-large blue">
+          <i class="large material-icons">mode_edit</i>
+        </a>
+        <ul>
+          <li><a href="#attractionGrid" class="btn-floating red"><i class="material-icons">place</i></a></li>
+          <li><a href="#restaurantGrid" class="btn-floating yellow darken-1"><i class="material-icons">fastfood</i></a></li>
+          <li><a href="#eventGrid" class="btn-floating green"><i class="material-icons">event</i></a></li>
+          <li><a href="#trailsGrid" class="btn-floating blue darken-4"><i class="material-icons">explore</i></a></li>
+          <li><a href="#shoppingGrid" class="btn-floating light-green darken-3"><i class="material-icons">store_mall_directory</i></a></li>
+          <li><a class="btn-floating pink darken-1" id="colorToggle"><i class="material-icons">font_download</i></a></li>          
+        </ul>
+      </div>
 
   <div id="index-banner" class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
+    <div class="section" id="containerContainer">
 
 
       <div class="container" id="searchContainer">
@@ -38,19 +51,19 @@
               <input type="search" id="cityInput" class="formInput" placeholder="Destination?" required>
             </div>
 
-            <div class="col s8">
+            <div class="col s8" id="stateCol">
               <input type="text" id="form-state">
             </div>
 
-            <div class="col s4">
+            <div class="col s4" id="zipCol">
               <input type="text" id="form-zip">
             </div>
 
-            <div class="col s6">
+            <div class="col s6" id="startingDate">
               <label for="startDate">Arrival Date</label>
               <input type="date" id="startDate" class="dateInput" required>
             </div>
-            <div class="col s6">
+            <div class="col s6" id="endingDate">
               <label for="endDate">Departure Date</label>
               <input type="date" id="endDate" class="dateInput" required>
             </div>
@@ -191,9 +204,12 @@
   </div>
 
   <div class="container">
-    <div class="section">
 
-      <div class="row flex" id="attractionGrid">
+      <div class="section">
+  
+        <div class="row flex grids" id="attractionGrid">
+        </div>
+  
       </div>
 
     </div>
@@ -217,9 +233,13 @@
 
 
   <div class="container">
-    <div class="section">
 
-      <div class="row flex" id="restaurantGrid">
+      <div class="section">
+  
+        <div class="row flex grids" id="restaurantGrid">
+        </div>
+  
+
       </div>
 
     </div>
@@ -240,9 +260,13 @@
   </div>
 
   <div class="container">
-    <div class="section">
 
-      <div class="row flex center" id="eventGrid">
+      <div class="section">
+  
+        <div class="row flex center grids" id="eventGrid">
+          
+        </div>
+  
 
       </div>
 
@@ -263,10 +287,14 @@
     </div>
   </div>
 
-  <div class="container">
-    <div class="section">
 
-      <div class="row flex center" id="trailsGrid">
+    <div class="container">
+      <div class="section">
+  
+        <div class="row flex center grids" id="trailsGrid">
+          
+        </div>
+  
 
       </div>
 
@@ -293,6 +321,16 @@
       <div class="row flex center" id="shoppingGrid">
 
       </div>
+
+
+    <div class="container">
+        <div class="section">
+    
+          <div class="row flex center grids" id="shoppingGrid">
+            
+          </div>
+    
+        </div>
 
     </div>
 

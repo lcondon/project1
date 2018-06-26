@@ -199,9 +199,9 @@ database.ref(city).set({
         for (var i = 0; i < 12; i++) {
           newAttractionDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("attractionBackground");
-          newAttractionName = $("<h6>").text(attractionList[i].name);
-          newAttractionType = $("<p>").text(attractionList[i].categories[0].name);
-          newAttractionAddress = $("<p>").text(attractionList[i].location.address);
+          var newAttractionName = $("<h6>").text(attractionList[i].name);
+          var newAttractionType = $("<p>").text(attractionList[i].categories[0].name);
+          var newAttractionAddress = $("<p>").text(attractionList[i].location.address);
           newBackgroundDiv.append(newAttractionName)
             .append(newAttractionType)
             .append(newAttractionAddress);
@@ -242,11 +242,11 @@ database.ref(city).set({
         
         for (var i = 0; i < calculatedShopping; i++) {
 
-          newShoppingDiv = $("<div>").addClass("col l4 m4 s12 center");
+          var newShoppingDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("shoppingBackground");
-          newShopName = $("<h6>").text(result.response.venues[i].name);
-          newShopType = $("<p>").text(result.response.venues[i].categories[0].name);
-          newShopAddress = $("<p>").text(result.response.venues[i].location.address);
+          var newShopName = $("<h6>").text(result.response.venues[i].name);
+          var newShopType = $("<p>").text(result.response.venues[i].categories[0].name);
+          var newShopAddress = $("<p>").text(result.response.venues[i].location.address);
           newBackgroundDiv.append(newShopName)
             .append(newShopType)
             .append(newShopAddress);
@@ -333,7 +333,8 @@ database.ref(city).set({
           })
         })
       } else {
-        var calculatedtrailList = ((Math.floor((eventList.length) / 3)) * 3);
+        var trailsList = result.places;
+        var calculatedtrailList = ((Math.floor((trailsList.length) / 3)) * 3);
         for (var i = 0; i < calculatedtrailList; i++) {
           var activities = [];
           var arr = result.places[i].activities;

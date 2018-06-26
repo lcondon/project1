@@ -354,7 +354,7 @@ database.ref(city).set({
     }).then(function (result) {
       console.log(result);
 
-      if (result.page.number > 0) {
+      if (result.page.totalElements > 0) {
         console.log(result._embedded.events);
         var eventList = result._embedded.events;
         var calculatedEventList = ((Math.floor((eventList.length) / 3)) * 3) - 1
@@ -379,7 +379,7 @@ database.ref(city).set({
           var url2 = result.results[1].urls.raw;
           eventMultiple.update("url('" + url2 + "')");
         })
-      } else if (result.page.number == 0) {
+      } else if (result.page.totalElements == 0) {
         var noEventDiv = $("<div>").addClass("container center");
         var noEventName = $("<h5>").text("Sorry, there are no events for your area during this timeframe!")
           .addClass("center");

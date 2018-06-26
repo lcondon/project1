@@ -333,7 +333,8 @@ database.ref(city).set({
           })
         })
       } else {
-        for (var i = 0; i < trailsList.length; i++) {
+        var calculatedtrailList = ((Math.floor((eventList.length) / 3)) * 3);
+        for (var i = 0; i < calculatedtrailList; i++) {
           var activities = [];
           var arr = result.places[i].activities;
           $.each(arr, function (index, value) {

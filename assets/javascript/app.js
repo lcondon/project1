@@ -365,34 +365,40 @@ database.ref(city).set({
       dataType: "json"
     }).then(function (result) {
       console.log(result);
-      console.log(result._embedded.events);
-      var eventList = result._embedded.events;
 
+      if (result.page.number > 0) {
+        console.log(result._embedded.events);
+        var eventList = result._embedded.events;
+        var calculatedEventList = ((Math.floor((eventList.length) / 3)) * 3) - 1
+        for (var i = 0; i < calculatedEventList; i++) {
+          var newEventDiv = $("<div>").addClass("col l4 m4 s12 center");
+          var newBackgroundDiv = $("<div>").addClass("eventBackground");
+          var newEventName = $("<h5>").text(eventList[i].name);
+          var newEventVenue = $("<p>").text(eventList[i]._embedded.venues["0"].name);
+          var newEventDate = $("<p>").text(eventList[i].dates.start.localDate);
+          var newEventLink = $("<p>").html("<a target = '_blank' href =" + eventList[i].url + "> More Info Here </a>");
+          newBackgroundDiv.append(newEventName)
+            .append(newEventVenue)
+            .append(newEventDate)
+            .append(newEventLink);
+          newEventDiv.append(newBackgroundDiv);
+          $("#eventGrid").append(newEventDiv);
+        }
+        $.ajax({
+          url: unsplashUrl,
+          method: 'GET',
+        }).then(function (result) {
+          var url2 = result.results[1].urls.raw;
+          eventMultiple.update("url('" + url2 + "')");
+        })
+      } else if (result.page.number == 0) {
+        var noEventDiv = $("<div>").addClass("container center");
+        var noEventName = $("<h5>").text("Sorry, there are no events for your area during this timeframe!")
+          .addClass("center");
+        noEventDiv.append(noEventName);
+        $("#eventGrid").append(noEventDiv);
 
-      var calculatedEventList = ((Math.floor((eventList.length)/3))*3)
-
-      for (var i = 0; i < calculatedEventList; i++) {
-        var newEventDiv = $("<div>").addClass("col l4 m4 s12 center");
-        var newBackgroundDiv = $("<div>").addClass("eventBackground");
-        var newEventName = $("<h5>").text(eventList[i].name);
-        var newEventVenue = $("<p>").text(eventList[i]._embedded.venues["0"].name);
-        var newEventDate = $("<p>").text(eventList[i].dates.start.localDate);
-        var newEventLink = $("<p>").html("<a target = '_blank' href =" + eventList[i].url + "> More Info Here </a>");
-        newBackgroundDiv.append(newEventName)
-          .append(newEventVenue)
-          .append(newEventDate)
-          .append(newEventLink);
-        newEventDiv.append(newBackgroundDiv);
-        $("#eventGrid").append(newEventDiv);
       }
-      $.ajax({
-        url: unsplashUrl,
-        method: 'GET',
-      }).then(function (result) {
-        var url2 = result.results[1].urls.raw;
-        eventMultiple.update("url('" + url2 + "')");
-      })
-
     });
 
     $.ajax({

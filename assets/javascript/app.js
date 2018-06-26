@@ -65,7 +65,7 @@ var isValid;
 var database = firebase.database();
 
 //Makes a button from the firebase database
-database.ref().on("child_added", function(childSnapshot, prevChildKey){
+database.ref().orderByChild('dateAdded').limitToLast(4).on("child_added", function(childSnapshot, prevChildKey){
   event.preventDefault();
   var cityButton = $("<button>").text(childSnapshot.val().city+", "+childSnapshot.val().state);
   var newCity = childSnapshot.val().city
@@ -127,6 +127,7 @@ database.ref(city).set({
   city: city,
   zip: zip,
   state: state,
+  dateAdded: firebase.database.ServerValue.TIMESTAMP
 })
 
 //Once the button is clicked, users are directed to navigation grid

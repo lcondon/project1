@@ -43,38 +43,36 @@ div.menuBackground > a:active {
   width: 98%;
 }
 
-input:required {
-  border: 2px dashed red;
-}
-
-input:valid {
-  border: 2px solid black;
-}
 
 .eventBackground,
 .attractionBackground,
 .trailsBackground,
-.restaurantBackground {
+.restaurantBackground,
+.shoppingBackground {
   padding: 2%;
   height: 98%;
   width: 98%;
   margin: 1%;
-  color: #000;
+}
+
+.grids {
+  color: black;
 }
 
 
  body {
   font-family: 'summit_mediumsolid', sans-serif;
+  top: 0;
+ }
+
+ #logoTT {
+   margin: 0;
  }
 
  #download-button {
   background-color: #285340;
   color: white;
  }
-
- /* .brand-logo {
-   margin-left: 40%;
- } */
 
  #navBar {
   background-color: #285340;
@@ -91,12 +89,7 @@ p {
 }
 
 .sidenav-trigger {
-  color: #26a69a;
-}
-
-#startDate,
-#endDate {
-  color: white;
+  color: #285340;
 }
 
 #placeSearch {
@@ -113,7 +106,7 @@ label {
 }
 
 #searchContainer {
-  margin-top: 12%;
+  width: 70%;
 }
 
 .parallax-container .parallax #img1 {
@@ -171,8 +164,17 @@ footer.page-footer {
   color: black;
 }
 
-#form-zip, #form-state, #endDate, #startDate{
+#form-zip, #form-state, #endDate, #startDate, #endingDate, #startingDate{
   color: white;
   font-family: 'summit_mediumsolid', sans-serif; 
   margin-bottom: 20px;
+  
+}
+
+#startingDate, #stateCol {
+  padding-right: 10px;
+}
+
+.textDif {
+  color: white !important;
 }

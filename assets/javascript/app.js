@@ -144,7 +144,7 @@ setTimeout(movetoGrid, 1500)
     }).then(function (response) {
       zomatoKey = response.location_suggestions[0].id;
       //Find the restaurants using Zomato
-      var zomatoRestaurantQuery = "https://developers.zomato.com/api/v2.1/search?entity_id=" + zomatoKey + "&entity_type=city&start=0&count=11"
+      var zomatoRestaurantQuery = "https://developers.zomato.com/api/v2.1/search?entity_id=" + zomatoKey + "&entity_type=city&start=0&count=12"
       $.ajax({
         url: zomatoRestaurantQuery,
         method: "GET",
@@ -155,12 +155,6 @@ setTimeout(movetoGrid, 1500)
       }).then(function (response) {
         //Create restaurant grid
         var restaurantList = response.restaurants;
-        var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
-        var navigationHeader = $("<h5>").html("<a href = '#navigationGrid'>Menu</a>");
-        var navigationIcon = $("<p>").html("<a href = '#navigationGrid'><i class= 'material-icons'>apps</i></a>");
-        navigationDiv.append(navigationHeader)
-          .append(navigationIcon);
-          $("#restaurantGrid").append(navigationDiv);
         for (var i = 0; i < restaurantList.length; i++) {
           var newRestaurantDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("restaurantBackground");
@@ -189,13 +183,8 @@ setTimeout(movetoGrid, 1500)
         method: "GET",
       }).then(function (answer) {
         var attractionList = answer.response.venues;
-        var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
-        var navigationHeader = $("<h6>").html("<a href = '#navigationGrid'>Menu</a>");
-        var navigationIcon = $("<p>").html("<a href = '#navigationGrid'><i class= 'material-icons'>apps</i></a>");
-        navigationDiv.append(navigationHeader)
-          .append(navigationIcon);
-        $("#attractionGrid").append(navigationDiv);
-        for (var i = 0; i < 11; i++) {
+        
+        for (var i = 0; i < 12; i++) {
           newAttractionDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("attractionBackground");
           newAttractionName = $("<h6>").text(attractionList[i].name);
@@ -222,13 +211,8 @@ setTimeout(movetoGrid, 1500)
         url: shoppingQuery,
         method: 'GET'
       }).then(function (result) {
-        var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
-        var navigationHeader = $("<h5>").html("<a href = '#navigationGrid'>Menu</a>");
-        var navigationIcon = $("<p>").html("<a href = '#navigationGrid'><i class= 'material-icons'>apps</i></a>");
-        navigationDiv.append(navigationHeader)
-          .append(navigationIcon);
-        $("#shoppingGrid").append(navigationDiv);
-        for (var i = 0; i < 11; i++) {
+        
+        for (var i = 0; i < 12; i++) {
           newShoppingDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("shoppingBackground");
           newShopName = $("<h6>").text(result.response.venues[i].name);
@@ -267,7 +251,7 @@ setTimeout(movetoGrid, 1500)
     })
 
     //To create the outdoor exploration section 
-    var trailUrl = "https://trailapi-trailapi.p.mashape.com/?radius=limit=11&q[city_cont]=" + city + "&q[state_cont]=" + state;
+    var trailUrl = "https://trailapi-trailapi.p.mashape.com/?limit=12&q[city_cont]=" + city + "&q[state_cont]=" + state;
     $.ajax({
       url: trailUrl,
       method: 'GET',
@@ -280,12 +264,7 @@ setTimeout(movetoGrid, 1500)
       console.log(result.places);
 
       var trailsList = result.places;
-      var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
-      var navigationHeader = $("<h5>").html("<a href = '#navigationGrid'>Menu<i class= 'material-icons'>apps</i></a>");
-      navigationDiv.append(navigationHeader)
-      $("#trailsGrid").append(navigationDiv);
-      var calculatedTrailList = ((Math.floor((trailsList.length)/3))*3)-1
-      for (var i = 0; i < calculatedTrailList; i++) {
+      for (var i = 0; i < trailsList.length; i++) {
         var activities = [];
         var arr = result.places[i].activities;
         $.each(arr, function (index, value) {
@@ -329,7 +308,7 @@ setTimeout(movetoGrid, 1500)
     })
 
     //To create events Div 
-    var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=11&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&city=" + city;
+    var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=12&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&city=" + city;
     $.ajax({
       type: "GET",
       url: 'https://cors-anywhere.herokuapp.com/' + tixUrl,
@@ -340,10 +319,6 @@ setTimeout(movetoGrid, 1500)
       console.log(result._embedded.events);
       var eventList = result._embedded.events;
 
-      var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
-      var navigationHeader = $("<h5>").html("<a href = '#navigationGrid'>Menu<i class= 'material-icons'>apps</i></a>");
-      navigationDiv.append(navigationHeader)
-      $("#eventGrid").append(navigationDiv);
       var calculatedEventList = ((Math.floor((eventList.length)/3))*3)-1
       for (var i = 0; i < calculatedEventList; i++) {
         var newEventDiv = $("<div>").addClass("col l4 m4 s12 center");

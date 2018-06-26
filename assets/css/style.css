@@ -111,7 +111,10 @@ label {
 
 #searchContainer {
   width: 70%;
+  margin-top: -5%;
 }
+
+
 
 .parallax-container .parallax #img1 {
   width: 200%;

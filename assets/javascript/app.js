@@ -212,8 +212,10 @@ setTimeout(movetoGrid, 1500)
         url: shoppingQuery,
         method: 'GET'
       }).then(function (result) {
+        var shoppingLength = result.response.venues.length
+        var calculatedShopping = ((Math.floor((shoppingLength)/3))*3)
         
-        for (var i = 0; i < 12; i++) {
+        for (var i = 0; i < calculatedShopping; i++) {
           newShoppingDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("shoppingBackground");
           newShopName = $("<h6>").text(result.response.venues[i].name);
@@ -252,7 +254,7 @@ setTimeout(movetoGrid, 1500)
     })
 
     //To create the outdoor exploration section 
-    var trailUrl = "https://trailapi-trailapi.p.mashape.com/?limit=12&q[city_cont]=" + city + "&q[state_cont]=" + state;
+    var trailUrl = "https://trailapi-trailapi.p.mashape.com/?limit=12&q[city_cont]=" + city + "&q[state_cont]=" + state+"&radius=400";
     $.ajax({
       url: trailUrl,
       method: 'GET',
@@ -320,7 +322,7 @@ setTimeout(movetoGrid, 1500)
       console.log(result._embedded.events);
       var eventList = result._embedded.events;
 
-      var calculatedEventList = ((Math.floor((eventList.length)/3))*3)-1
+      var calculatedEventList = ((Math.floor((eventList.length)/3))*3)
       for (var i = 0; i < calculatedEventList; i++) {
         var newEventDiv = $("<div>").addClass("col l4 m4 s12 center");
         var newBackgroundDiv = $("<div>").addClass("eventBackground");

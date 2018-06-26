@@ -105,6 +105,10 @@ label {
   background-color: #285340;
 }
 
+#searchBar{
+  margin: 2px;
+}
+
 #searchContainer {
   width: 70%;
 }
@@ -177,4 +181,8 @@ footer.page-footer {
 
 .textDif {
   color: white !important;
+}
+
+.newCityBtn {
+  margin: 2px;
 }

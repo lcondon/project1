@@ -23,18 +23,42 @@
     </div>
   </nav>
   <div class="fixed-action-btn">
-        <a class="btn-floating btn-large blue">
-          <i class="large material-icons">mode_edit</i>
+    <a class="btn-floating btn-large blue">
+      <i class="large material-icons">mode_edit</i>
+    </a>
+    <ul>
+      <li>
+        <a href="#attractionGrid" class="btn-floating red">
+          <i class="material-icons">place</i>
         </a>
-        <ul>
-          <li><a href="#attractionGrid" class="btn-floating red"><i class="material-icons">place</i></a></li>
-          <li><a href="#restaurantGrid" class="btn-floating yellow darken-1"><i class="material-icons">fastfood</i></a></li>
-          <li><a href="#eventGrid" class="btn-floating green"><i class="material-icons">event</i></a></li>
-          <li><a href="#trailsGrid" class="btn-floating blue darken-4"><i class="material-icons">explore</i></a></li>
-          <li><a href="#shoppingGrid" class="btn-floating light-green darken-3"><i class="material-icons">store_mall_directory</i></a></li>
-          <li><a class="btn-floating pink darken-1" id="colorToggle"><i class="material-icons">font_download</i></a></li>          
-        </ul>
-      </div>
+      </li>
+      <li>
+        <a href="#restaurantGrid" class="btn-floating yellow darken-1">
+          <i class="material-icons">fastfood</i>
+        </a>
+      </li>
+      <li>
+        <a href="#eventGrid" class="btn-floating green">
+          <i class="material-icons">event</i>
+        </a>
+      </li>
+      <li>
+        <a href="#trailsGrid" class="btn-floating blue darken-4">
+          <i class="material-icons">explore</i>
+        </a>
+      </li>
+      <li>
+        <a href="#shoppingGrid" class="btn-floating light-green darken-3">
+          <i class="material-icons">store_mall_directory</i>
+        </a>
+      </li>
+      <li>
+        <a class="btn-floating pink darken-1" id="colorToggle">
+          <i class="material-icons">font_download</i>
+        </a>
+      </li>
+    </ul>
+  </div>
 
   <div id="index-banner" class="parallax-container valign-wrapper">
     <div class="section" id="containerContainer">
@@ -175,16 +199,19 @@
         </div>
         <div class="col l4 m6 s12 center">
           <div class="menuBackground">
-            <div class="icon-block">
-              <h2 class="center brown-text">
-                <i class="material-icons">
-                  wb_sunny
-                </i>
-              </h2>
-              <h5 class="center">Weather </h5>
-              <div id="weatherDiv"></div>
-            </div>
+            <a href="#">
+              <div class="icon-block">
+                <h2 class="center brown-text">
+                  <i class="material-icons">
+                    wb_sunny
+                  </i>
+                </h2>
+                <h5 class="center">Weather </h5>
+                <div id="weatherDiv"></div>
+              </div>
+            </a>
           </div>
+
         </div>
       </div>
 
@@ -205,14 +232,14 @@
 
   <div class="container">
 
-      <div class="section">
-  
-        <div class="row flex grids" id="attractionGrid">
-        </div>
-  
+    <div class="section">
+
+      <div class="row flex grids" id="attractionGrid">
       </div>
 
     </div>
+
+  </div>
 
 
 
@@ -233,15 +260,15 @@
 
   <div class="container">
 
-      <div class="section">
-  
-        <div class="row flex grids" id="restaurantGrid">
-        </div>
-  
+    <div class="section">
 
+      <div class="row flex grids" id="restaurantGrid">
       </div>
 
+
     </div>
+
+  </div>
 
 
   <div class="parallax-container valign-wrapper">
@@ -259,16 +286,16 @@
 
   <div class="container">
 
-      <div class="section">
-  
-        <div class="row flex center grids" id="eventGrid">
-          
-        </div>
-  
+    <div class="section">
+
+      <div class="row flex center grids" id="eventGrid">
 
       </div>
 
+
     </div>
+
+  </div>
 
 
 
@@ -286,19 +313,19 @@
   </div>
 
 
-    <div class="container">
-      <div class="section">
-  
-        <div class="row flex center grids" id="trailsGrid">
-          
-        </div>
-  
+  <div class="container">
+    <div class="section">
+
+      <div class="row flex center grids" id="trailsGrid">
 
       </div>
 
+
     </div>
 
-  
+  </div>
+
+
 
   <div class="parallax-container valign-wrapper">
     <div class="section no-pad-bot">
@@ -314,29 +341,29 @@
   </div>
 
 
-    <div class="container">
-        <div class="section">
-    
-          <div class="row flex center grids" id="shoppingGrid">
-            
-          </div>
-    
-        </div>
+  <div class="container">
+    <div class="section">
+
+      <div class="row flex center grids" id="shoppingGrid">
+
+      </div>
 
     </div>
+
+  </div>
 
   </div>
 
   <footer class="page-footer">
     <div class="container">
       <div class="row">
-        <div class="col l4 s12">
+        <div class="col l12 s12 center">
           <h5 class="white-text">Total Travel Team</h5>
           <p class="grey-text text-lighten-4">We are a partnership of two Coding Bootcamp students at the University of Richmond Full Stack Bootcamp.</p>
 
 
         </div>
-        <div class="col l4 s12">
+        <div class="col l6 s12 center">
           <h5 class="white-text">Lucas Condon</h5>
           <ul>
             <li>
@@ -347,7 +374,7 @@
             </li>
           </ul>
         </div>
-        <div class="col l4 s12">
+        <div class="col l6 s12 center">
           <h5 class="white-text">Kate Gibbs</h5>
           <ul>
             <li>
@@ -361,7 +388,7 @@
       </div>
     </div>
     <div class="footer-copyright">
-      <div class="container">
+      <div class="container center">
         Made with
         <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
       </div>

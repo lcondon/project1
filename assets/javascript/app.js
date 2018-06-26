@@ -65,7 +65,8 @@ var isValid;
 var database = firebase.database();
 
 //Makes a button from the firebase database
-database.ref().on("child_added", function (childSnapshot, prevChildKey) {
+
+database.ref().orderByChild('dateAdded').limitToLast(4).on("child_added", function(childSnapshot, prevChildKey){
   event.preventDefault();
   var cityButton = $("<button>").text(childSnapshot.val().city + ", " + childSnapshot.val().state);
   var newCity = childSnapshot.val().city
@@ -124,12 +125,13 @@ $("#searchBar").on("click", function (event) {
     console.log(endDate);
     var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query=" + city + "+" + state + "&orientation=landscape";
 
-    //When submit button is clicked, push the data to firebase
-    database.ref(city).set({
-      city: city,
-      zip: zip,
-      state: state,
-    })
+//When submit button is clicked, push the data to firebase
+database.ref(city).set({
+  city: city,
+  zip: zip,
+  state: state,
+  dateAdded: firebase.database.ServerValue.TIMESTAMP
+})
 
     //Once the button is clicked, users are directed to navigation grid
     setTimeout(movetoGrid, 1500)
@@ -214,7 +216,11 @@ $("#searchBar").on("click", function (event) {
         method: 'GET'
       }).then(function (result) {
 
-        for (var i = 0; i < 12; i++) {
+        var shoppingLength = result.response.venues.length
+        var calculatedShopping = ((Math.floor((shoppingLength)/3))*3)
+        
+        for (var i = 0; i < calculatedShopping; i++) {
+
           newShoppingDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("shoppingBackground");
           newShopName = $("<h6>").text(result.response.venues[i].name);
@@ -253,7 +259,7 @@ $("#searchBar").on("click", function (event) {
     })
 
     //To create the outdoor exploration section 
-    var trailUrl = "https://trailapi-trailapi.p.mashape.com/?limit=12&q[city_cont]=" + city + "&q[state_cont]=" + state;
+    var trailUrl = "https://trailapi-trailapi.p.mashape.com/?limit=12&q[city_cont]=" + city + "&q[state_cont]=" + state+"&radius=400";
     $.ajax({
       url: trailUrl,
       method: 'GET',
@@ -359,6 +365,7 @@ $("#searchBar").on("click", function (event) {
       dataType: "json"
     }).then(function (result) {
       console.log(result);
+
       if (result.page.number > 0) {
         console.log(result._embedded.events);
         var eventList = result._embedded.events;
@@ -390,6 +397,7 @@ $("#searchBar").on("click", function (event) {
           .addClass("center");
         noEventDiv.append(noEventName);
         $("#eventGrid").append(noEventDiv);
+
       }
     });
 

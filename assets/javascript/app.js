@@ -104,7 +104,7 @@ function validateForm() {
   return isValid;
 }
 
-$("#searchBar").on("click", function (event) {
+$("#searchBar").one("click", function (event) {
   validateForm();
   if (!isValid) {
     // $('.modal').modal('open');
@@ -295,20 +295,8 @@ setTimeout(movetoGrid, 1500)
 
     })
 
-    var googleUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + city + "%20" + state + "&inputtype=textquery&fields=place_id,id,photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA5Ag7VdkbFo4eRs7x383DpttV1xDr5uRk";
-    $.ajax({
-      url: 'https://cors-anywhere.herokuapp.com/' + googleUrl,
-      method: 'GET',
-      headers: {
-
-      }
-    }).then(function (result) {
-      var city = result.candidates[0];
-      console.log(city);
-    })
-
     //To create events Div 
-    var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=12&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&city=" + city;
+    var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=12&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&postalCode=" + zip;
     $.ajax({
       type: "GET",
       url: 'https://cors-anywhere.herokuapp.com/' + tixUrl,

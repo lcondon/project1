@@ -1,3 +1,15 @@
+//Loaded for firebase
+var config = {
+  apiKey: "AIzaSyCJOeyyKx9WQpm8jXRB7ICSO5yIvx3Xop0",
+  authDomain: "totaltravel-ae741.firebaseapp.com",
+  databaseURL: "https://totaltravel-ae741.firebaseio.com",
+  projectId: "totaltravel-ae741",
+  storageBucket: "totaltravel-ae741.appspot.com",
+  messagingSenderId: "404756837934"
+};
+//Initializes firebase
+firebase.initializeApp(config);
+
 //Loaded for parallax design 
 (function ($) {
   $(function () {
@@ -44,6 +56,31 @@ var zomatoKey = "";
 var startDate;
 var endDate;
 var isValid;
+var database = firebase.database();
+
+//Makes a button from the firebase database
+database.ref().on("child_added", function(childSnapshot, prevChildKey){
+  event.preventDefault();
+  var cityButton = $("<button>").text(childSnapshot.val().city+", "+childSnapshot.val().state);
+  var newCity = childSnapshot.val().city
+  cityButton.addClass("btn waves-effect waves-light")
+  .addClass("newCityBtn")
+  .attr("cityName", newCity);
+  $("#recentButtons").append(cityButton);
+  })
+
+  //When a recent city button is clicked, form automatically populates
+  $(document).on("click", ".newCityBtn",function(){
+    var buttonCity = $(this).attr("cityName");
+    database.ref(buttonCity).once('value').then(function(snapshot){
+      var newZip = (snapshot.val().zip);
+      var newCity = (snapshot.val().city);
+      var newState = (snapshot.val().state);
+      $("#cityInput").val(newCity);
+      $("#form-zip").val(newZip);
+      $("#form-state").val(newState);
+    })
+    }) 
 
 //When this function is called, the user will be directed to the navigation grid
 function movetoGrid(){
@@ -77,8 +114,14 @@ $("#searchBar").on("click", function (event) {
     console.log(startDate);
     endDate = $("#endDate").val();
     console.log(endDate);
-
     var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query=" + city + "+" + state + "&orientation=landscape";
+
+//When submit button is clicked, push the data to firebase
+database.ref(city).set({
+  city: city,
+  zip: zip,
+  state: state,
+})
 
 //Once the button is clicked, users are directed to navigation grid
 setTimeout(movetoGrid, 1500)
@@ -95,7 +138,7 @@ setTimeout(movetoGrid, 1500)
     }).then(function (response) {
       zomatoKey = response.location_suggestions[0].id;
       //Find the restaurants using Zomato
-      var zomatoRestaurantQuery = "https://developers.zomato.com/api/v2.1/search?entity_id=" + zomatoKey + "&entity_type=city&start=0&count=10"
+      var zomatoRestaurantQuery = "https://developers.zomato.com/api/v2.1/search?entity_id=" + zomatoKey + "&entity_type=city&start=0&count=11"
       $.ajax({
         url: zomatoRestaurantQuery,
         method: "GET",
@@ -106,26 +149,14 @@ setTimeout(movetoGrid, 1500)
       }).then(function (response) {
         //Create restaurant grid
         var restaurantList = response.restaurants;
-        for (var i = 0; i < 2; i++) {
-          var newRestaurantDiv = $("<div>").addClass("col s5 center");
-          var newBackgroundDiv = $("<div>").addClass("restaurantBackground");
-          var newRestaurantName = $("<h5>").text(restaurantList[i].restaurant.name);
-          var newRestaurantType = $("<p>").text(restaurantList[i].restaurant.cuisines);
-          var newRestaurantLink = $("<p>").html("<a target = '_blank' href =" + restaurantList[i].restaurant.url + "> Website </a>")
-          newBackgroundDiv.append(newRestaurantName)
-            .append(newRestaurantType)
-            .append(newRestaurantLink);
-          newRestaurantDiv.append(newBackgroundDiv);
-          $("#restaurantGrid").append(newRestaurantDiv)
-        };
-        var navigationDiv = $("<div>").addClass("col s2 center")
+        var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
         var navigationHeader = $("<h5>").html("<a href = '#navigationGrid'>Menu</a>");
         var navigationIcon = $("<p>").html("<a href = '#navigationGrid'><i class= 'material-icons'>apps</i></a>");
         navigationDiv.append(navigationHeader)
           .append(navigationIcon);
-        $("#restaurantGrid").append(navigationDiv);
-        for (var i = 2; i < restaurantList.length; i++) {
-          var newRestaurantDiv = $("<div>").addClass("col s3 center");
+          $("#restaurantGrid").append(navigationDiv);
+        for (var i = 0; i < restaurantList.length; i++) {
+          var newRestaurantDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("restaurantBackground");
           var newRestaurantName = $("<h5>").text(restaurantList[i].restaurant.name);
           var newRestaurantType = $("<p>").text(restaurantList[i].restaurant.cuisines);
@@ -136,7 +167,6 @@ setTimeout(movetoGrid, 1500)
           newRestaurantDiv.append(newBackgroundDiv);
           $("#restaurantGrid").append(newRestaurantDiv)
         };
-
         $.ajax({
           url: unsplashUrl,
           method: 'GET',
@@ -153,8 +183,14 @@ setTimeout(movetoGrid, 1500)
         method: "GET",
       }).then(function (answer) {
         var attractionList = answer.response.venues;
-        for (var i = 0; i < 3; i++) {
-          newAttractionDiv = $("<div>").addClass("col s3 center");
+        var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
+        var navigationHeader = $("<h6>").html("<a href = '#navigationGrid'>Menu</a>");
+        var navigationIcon = $("<p>").html("<a href = '#navigationGrid'><i class= 'material-icons'>apps</i></a>");
+        navigationDiv.append(navigationHeader)
+          .append(navigationIcon);
+        $("#attractionGrid").append(navigationDiv);
+        for (var i = 0; i < 11; i++) {
+          newAttractionDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("attractionBackground");
           newAttractionName = $("<h6>").text(attractionList[i].name);
           newAttractionType = $("<p>").text(attractionList[i].categories[0].name);
@@ -163,25 +199,6 @@ setTimeout(movetoGrid, 1500)
             .append(newAttractionType)
             .append(newAttractionAddress);
           newAttractionDiv.append(newBackgroundDiv);
-          $("#attractionGrid").append(newAttractionDiv);
-        }
-        var navigationDiv = $("<div>").addClass("col s3 center")
-        var navigationHeader = $("<h6>").html("<a href = '#navigationGrid'>Menu</a>");
-        var navigationIcon = $("<p>").html("<a href = '#navigationGrid'><i class= 'material-icons'>apps</i></a>");
-        navigationDiv.append(navigationHeader)
-          .append(navigationIcon);
-        $("#attractionGrid").append(navigationDiv);
-
-        for (var i = 3; i < 12; i++) {
-          newAttractionDiv = $("<div>").addClass("col s4 center");
-          var newBackgroundDiv = $("<div>").addClass("attractionBackground");
-          newAttractionName = $("<h6>").text(attractionList[i].name);
-          newAttractionType = $("<p>").text(attractionList[i].categories[0].name);
-          newAttractionAddress = $("<p>").text(attractionList[i].location.address);
-          newBackgroundDiv.append(newAttractionName)
-            .append(newAttractionType)
-            .append(newAttractionAddress);
-          newAttractionDiv.append(newBackgroundDiv)
           $("#attractionGrid").append(newAttractionDiv);
         }
         $.ajax({
@@ -199,26 +216,14 @@ setTimeout(movetoGrid, 1500)
         url: shoppingQuery,
         method: 'GET'
       }).then(function (result) {
-        for (var i = 0; i < 2; i++) {
-          newShoppingDiv = $("<div>").addClass("col s5 center");
-          var newBackgroundDiv = $("<div>").addClass("shoppingBackground");
-          newShopName = $("<h6>").text(result.response.venues[i].name);
-          newShopType = $("<p>").text(result.response.venues[i].categories[0].name);
-          newShopAddress = $("<p>").text(result.response.venues[i].location.address);
-          newBackgroundDiv.append(newShopName)
-            .append(newShopType)
-            .append(newShopAddress);
-          newShoppingDiv.append(newBackgroundDiv);
-          $("#shoppingGrid").append(newShoppingDiv);
-        };
-        var navigationDiv = $("<div>").addClass("col s2 center")
+        var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
         var navigationHeader = $("<h5>").html("<a href = '#navigationGrid'>Menu</a>");
         var navigationIcon = $("<p>").html("<a href = '#navigationGrid'><i class= 'material-icons'>apps</i></a>");
         navigationDiv.append(navigationHeader)
           .append(navigationIcon);
         $("#shoppingGrid").append(navigationDiv);
-        for (var i = 2; i < 11; i++) {
-          newShoppingDiv = $("<div>").addClass("col s4 center");
+        for (var i = 0; i < 11; i++) {
+          newShoppingDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("shoppingBackground");
           newShopName = $("<h6>").text(result.response.venues[i].name);
           newShopType = $("<p>").text(result.response.venues[i].categories[0].name);
@@ -267,39 +272,21 @@ setTimeout(movetoGrid, 1500)
     }).then(function (result) {
       console.log(result);
       console.log(result.places);
+
       var trailsList = result.places;
-      for (var i = 0; i < 2; i++) {
-        var activities = [];
-        var arr = result.places[i].activities;
-        $.each(arr, function (index, value) {
-          activities.push(result.places[i].activities[index].activity_type_name);
-        });
-        activities.join(" + ");
-        var newTrailsDiv = $("<div>").addClass("col m4 center");
-        var newBackgroundDiv = $("<div>").addClass("trailsBackground");
-        var newTrailsName = $("<h5>").text(trailsList[i].name);
-        var newTrailsActivities = $("<p>").text(activities);
-        var newTrailsDescription = $("<p>").html("description");
-        var newTrailsLink = $("<p>").html("<a target = '_blank' href =''> Get Directions </a>");
-        newBackgroundDiv.append(newTrailsName)
-          .append(newTrailsActivities)
-          .append(newTrailsDescription)
-          .append(newTrailsLink);
-        newTrailsDiv.append(newBackgroundDiv);
-        $("#trailsGrid").append(newTrailsDiv);
-      }
-      var navigationDiv = $("<div>").addClass("col s4 center")
+      var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
       var navigationHeader = $("<h5>").html("<a href = '#navigationGrid'>Menu<i class= 'material-icons'>apps</i></a>");
       navigationDiv.append(navigationHeader)
       $("#trailsGrid").append(navigationDiv);
-      for (var i = 2; i < trailsList.length; i++) {
+      var calculatedTrailList = ((Math.floor((trailsList.length)/3))*3)-1
+      for (var i = 0; i < calculatedTrailList; i++) {
         var activities = [];
         var arr = result.places[i].activities;
         $.each(arr, function (index, value) {
           activities.push(result.places[i].activities[index].activity_type_name);
         });
         activities.join(" + ");
-        var newTrailsDiv = $("<div>").addClass("col m4 center");
+        var newTrailsDiv = $("<div>").addClass("col l4 m4 s12 center");
         var newBackgroundDiv = $("<div>").addClass("trailsBackground");
         var newTrailsName = $("<h5>").text(trailsList[i].name);
         var newTrailsActivities = $("<p>").text(activities);
@@ -346,26 +333,13 @@ setTimeout(movetoGrid, 1500)
       console.log(result);
       console.log(result._embedded.events);
       var eventList = result._embedded.events;
-      for (var i = 0; i < 2; i++) {
-        var newEventDiv = $("<div>").addClass("col m4 center");
-        var newBackgroundDiv = $("<div>").addClass("eventBackground");
-        var newEventName = $("<h5>").text(eventList[i].name);
-        var newEventVenue = $("<p>").text(eventList[i]._embedded.venues[0].name);
-        var newEventDate = $("<p>").text(eventList[i].dates.start.localDate);
-        var newEventLink = $("<p>").html("<a target = '_blank' href =" + eventList[i].url + "> More Info Here </a>");
-        newBackgroundDiv.append(newEventName)
-          .append(newEventVenue)
-          .append(newEventDate)
-          .append(newEventLink);
-        newEventDiv.append(newBackgroundDiv);
-        $("#eventGrid").append(newEventDiv);
-      }
-      var navigationDiv = $("<div>").addClass("col s4 center")
+      var navigationDiv = $("<div>").addClass("col l4 m4 s12 center")
       var navigationHeader = $("<h5>").html("<a href = '#navigationGrid'>Menu<i class= 'material-icons'>apps</i></a>");
       navigationDiv.append(navigationHeader)
       $("#eventGrid").append(navigationDiv);
-      for (var i = 2; i < eventList.length; i++) {
-        var newEventDiv = $("<div>").addClass("col m4 center");
+      var calculatedEventList = ((Math.floor((eventList.length)/3))*3)-1
+      for (var i = 0; i < calculatedEventList; i++) {
+        var newEventDiv = $("<div>").addClass("col l4 m4 s12 center");
         var newBackgroundDiv = $("<div>").addClass("eventBackground");
         var newEventName = $("<h5>").text(eventList[i].name);
         var newEventVenue = $("<p>").text(eventList[i]._embedded.venues[0].name);
@@ -378,10 +352,6 @@ setTimeout(movetoGrid, 1500)
         newEventDiv.append(newBackgroundDiv);
         $("#eventGrid").append(newEventDiv);
       }
-
-
-
-
       $.ajax({
         url: unsplashUrl,
         method: 'GET',

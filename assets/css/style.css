@@ -54,7 +54,8 @@ input:valid {
 .eventBackground,
 .attractionBackground,
 .trailsBackground,
-.restaurantBackground {
+.restaurantBackground,
+.shoppingBackground {
   padding: 2%;
   height: 98%;
   width: 98%;

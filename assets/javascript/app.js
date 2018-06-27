@@ -91,11 +91,11 @@ $(document).on("click", ".newCityBtn", function () {
 })
 
 //When this function is called, the user will be directed to the navigation grid
-function movetoGrid() {
-  $('html,body').animate({
-    scrollTop: $("#navigationGrid").offset().top
-  },
-    'slow');
+
+function move(sel) {
+document.querySelector(sel).scrollIntoView({ 
+  behavior: 'smooth' 
+});
 }
 
 //Requires that users input dates for event grid can be populated 
@@ -142,7 +142,7 @@ database.ref(city).set({
 })
 
     //Once the button is clicked, users are directed to navigation grid
-    setTimeout(movetoGrid, 1500)
+    move("#navigationGrid");
 
     //Find the Zomato ID
     var zomatoQuery = "https://developers.zomato.com/api/v2.1/cities?q=" + city + "%2C%20" + state + "&count=1"
@@ -216,19 +216,6 @@ database.ref(city).set({
           attractionMultiple.update("url('" + url3 + "')");
         })
       })
-      
-      var googleUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + city + "%20" + state + "&inputtype=textquery&fields=place_id,id,photos,formatted_address,name,rating,opening_hours,geometry&key=AIzaSyA5Ag7VdkbFo4eRs7x383DpttV1xDr5uRk";
-
-  $.ajax({
-    url: 'https://cors-anywhere.herokuapp.com/' + googleUrl,
-    method: 'GET',
-    headers: {
-
-    }
-  }).then(function (result) {
-    var city = result.candidates[0];
-    console.log(city);
-  })
 
       //To load the shopping grid
       var shoppingQuery = "https://api.foursquare.com/v2/venues/search?near=" + city + "," + state + "&limit=12&categoryId=50be8ee891d4fa8dcc7199a7,4bf58dd8d48988d1fd941735,52f2ab2ebcbc57f1066b8b1b,5744ccdfe4b0c0459246b4dc,5744ccdfe4b0c0459246b4df&client_id=MQF1VPVFWQ2GDP11OKAHEQCQ2JIURK0CZLZA4ER1ECJCWOMH&client_secret=P5SY4OSJDG2KHKNWXGTN0BTLW2IGYW5QN2LWPEM0DWTFC151&v=20180323"
@@ -367,11 +354,11 @@ database.ref(city).set({
 
     })
 
-    //To create events Div 
+    var herokuUrl = 'https://cors-anywhere.herokuapp.com/'; 
     var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=12&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&city=" + city;
     $.ajax({
       type: "GET",
-      url: 'https://cors-anywhere.herokuapp.com/' + tixUrl,
+      url: tixUrl,
       async: true,
       dataType: "json"
     }).then(function (result) {

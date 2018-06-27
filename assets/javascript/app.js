@@ -327,7 +327,7 @@ database.ref(city).set({
           var newBackgroundDiv = $("<div>").addClass("trailsBackground");
           var newTrailsName = $("<h5>").text(trailsList[i].name);
             var newTrailsActivities = $("<p>").text(activities);
-            var newTrailsLink = $("<p>").html("<a target = '_blank' href ='https://www.google.com/maps/place/"+trailsList[i].name+" "+trailsList[i].state+"'> Get Directions </a>");
+            var newTrailsLink = $("<p>").html("<a target = '_blank' href ='https://www.google.com/maps/search/?api=1&query="+trailsList[i].name+" "+trailsList[i].state+"'> Get Directions </a>");
             newBackgroundDiv.append(newTrailsName)
               .append(newTrailsActivities)
               .append(newTrailsLink);

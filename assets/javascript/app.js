@@ -124,15 +124,10 @@ $("#searchBar").on("click", function (event) {
     $('.modal').modal('open');
     setTimeout(closeMe, 10000);
     city = $("#cityInput").val().trim();
-    console.log(city);
     zip = $("#form-zip").val().trim();
-    console.log(zip);
     state = $("#form-state").val().trim();
-    console.log(state);
     startDate = $("#startDate").val();
-    console.log(startDate);
     endDate = $("#endDate").val();
-    console.log(endDate);
     var unsplashUrl = "https://api.unsplash.com/search/photos?client_id=7e1468f8407999fec4a3b0c0f43ef7924b8963590f6d7929f2e3dd9a8c6cf0c4&page=1&query=" + city + "+" + state + "&orientation=landscape";
 
 //When submit button is clicked, push the data to firebase
@@ -278,8 +273,6 @@ database.ref(city).set({
         "Accept": "text/plain"
       }
     }).then(function (result) {
-      console.log(result);
-      console.log(result.places);
       var trailsList = result.places;
       if (trailsList.length < 3) {
         var trailUrl2 = "https://trailapi-trailapi.p.mashape.com/?limit=12&q[state_cont]=" + state;
@@ -317,7 +310,6 @@ database.ref(city).set({
             method: 'GET',
           }).then(function (trailsResults) {
             var url5 = trailsResults.results[4].urls.raw;
-            console.log(trailsResults.results[4].urls.raw);
             trailsMultiple.update("url('" + url5 + "')");
           })
         })
@@ -350,7 +342,6 @@ database.ref(city).set({
         method: 'GET',
       }).then(function (trailsResults) {
         var url5 = trailsResults.results[4].urls.raw;
-        console.log(trailsResults.results[4].urls.raw);
         trailsMultiple.update("url('" + url5 + "')");
       })
 
@@ -364,10 +355,8 @@ database.ref(city).set({
       async: true,
       dataType: "json"
     }).then(function (result) {
-      console.log(result);
 
       if (result.page.totalElements > 0) {
-        console.log(result._embedded.events);
         var eventList = result._embedded.events;
         var calculatedEventList = ((Math.floor((eventList.length) / 3)) * 3)
         for (var i = 0; i < calculatedEventList; i++) {
@@ -405,7 +394,6 @@ database.ref(city).set({
       url: unsplashUrl,
       method: 'GET',
     }).then(function (result) {
-      console.log(result.results[0].urls.raw);
       var url1 = result.results[0].urls.raw;
       menuMultiple.update("url('" + url1 + "')");
     })

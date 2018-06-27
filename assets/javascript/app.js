@@ -273,6 +273,7 @@ database.ref(city).set({
         "Accept": "text/plain"
       }
     }).then(function (result) {
+      console.log(result)
       var trailsList = result.places;
       if (trailsList.length < 3) {
         var trailUrl2 = "https://trailapi-trailapi.p.mashape.com/?limit=12&q[state_cont]=" + state;
@@ -284,6 +285,7 @@ database.ref(city).set({
             "Accept": "text/plain"
           }
         }).then(function (result) {
+          
           var trailsList = result.places;
           for (var i = 0; i < trailsList.length; i++) {
             var activities = [];
@@ -296,11 +298,9 @@ database.ref(city).set({
             var newBackgroundDiv = $("<div>").addClass("trailsBackground");
             var newTrailsName = $("<h5>").text(trailsList[i].name);
             var newTrailsActivities = $("<p>").text(activities);
-            var newTrailsDescription = $("<p>").html("description");
-            var newTrailsLink = $("<p>").html("<a target = '_blank' href =''> Get Directions </a>");
+            var newTrailsLink = $("<p>").html("<a target = '_blank' href ='https://www.google.com/maps/place/"+trailsList[i].name+" "+trailsList[i].state+"'> Get Directions </a>");
             newBackgroundDiv.append(newTrailsName)
               .append(newTrailsActivities)
-              .append(newTrailsDescription)
               .append(newTrailsLink);
             newTrailsDiv.append(newBackgroundDiv);
             $("#trailsGrid").append(newTrailsDiv);
@@ -326,15 +326,13 @@ database.ref(city).set({
           var newTrailsDiv = $("<div>").addClass("col l4 m4 s12 center");
           var newBackgroundDiv = $("<div>").addClass("trailsBackground");
           var newTrailsName = $("<h5>").text(trailsList[i].name);
-          var newTrailsActivities = $("<p>").text(activities);
-          var newTrailsDescription = $("<p>").html("description");
-          var newTrailsLink = $("<p>").html("<a target = '_blank' href =''> Get Directions </a>");
-          newBackgroundDiv.append(newTrailsName)
-            .append(newTrailsActivities)
-            .append(newTrailsDescription)
-            .append(newTrailsLink);
-          newTrailsDiv.append(newBackgroundDiv);
-          $("#trailsGrid").append(newTrailsDiv);
+            var newTrailsActivities = $("<p>").text(activities);
+            var newTrailsLink = $("<p>").html("<a target = '_blank' href ='https://www.google.com/maps/place/"+trailsList[i].name+" "+trailsList[i].state+"'> Get Directions </a>");
+            newBackgroundDiv.append(newTrailsName)
+              .append(newTrailsActivities)
+              .append(newTrailsLink);
+            newTrailsDiv.append(newBackgroundDiv);
+            $("#trailsGrid").append(newTrailsDiv);
         }
       }
       $.ajax({
@@ -348,14 +346,14 @@ database.ref(city).set({
     })
 
     var herokuUrl = 'https://cors-anywhere.herokuapp.com/'; 
-    var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=12&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&city=" + city;
+    var tixUrl = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=1GDdZL6noFYxnKbqNYTgjdxLIKzBPFLG&size=12&startDateTime=" + startDate + "T00:00:00Z&endDateTime=" + endDate + "T23:59:00Z&city=" + city + "&radius=15";
     $.ajax({
       type: "GET",
       url: tixUrl,
       async: true,
       dataType: "json"
     }).then(function (result) {
-
+      console.log(result);
       if (result.page.totalElements > 0) {
         var eventList = result._embedded.events;
         var calculatedEventList = ((Math.floor((eventList.length) / 3)) * 3)

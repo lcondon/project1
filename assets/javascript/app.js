@@ -78,7 +78,8 @@ database.ref().orderByChild('dateAdded').limitToLast(4).on("child_added", functi
 })
 
 //When a recent city button is clicked, form automatically populates
-$(document).on("click", ".newCityBtn", function () {
+$(document).on("click", ".newCityBtn", function (event) {
+  event.preventDefault();
   var buttonCity = $(this).attr("cityName");
   database.ref(buttonCity).once('value').then(function (snapshot) {
     var newZip = (snapshot.val().zip);
@@ -119,6 +120,7 @@ $("#searchBar").on("click", function (event) {
   } else {
     event.preventDefault();
     $(".grids").empty();
+    $("#weatherDiv").empty();
     $('.modal').modal('open');
     setTimeout(closeMe, 10000);
     city = $("#cityInput").val().trim();
